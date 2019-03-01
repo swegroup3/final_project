@@ -1,0 +1,6 @@
+# osx
+.DS_Store
+
+node_modules/
+
+server/config/config.js
