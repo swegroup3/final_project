@@ -4,8 +4,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "ng test",
-	"preinstall": "npm install -g http-server",
-	"postinstall": "ng build --aot -prod && mv out/* ."
+	"postinstall": "ng build && mv out/* ."
 
   },
   "private": true,
