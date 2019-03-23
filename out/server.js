@@ -7,7 +7,7 @@ var db = require('./server/config/db');
 
 var FoodItem = require('./server/models/foodItem');
 
-const NG_APP_PATH = __dirname + '\\ng-app';
+const NG_APP_PATH = path.join(__dirname,  '/ng-app');
 
 // Initialize app
 var app = express();
