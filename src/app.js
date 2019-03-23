@@ -19,12 +19,12 @@ app.use(function(req, res, next) {
 });
 
 if (app.get('env') === 'development') {
-	app.listen(4201, function() {
+	app.listen(process.env.PORT || 4201, function() {
 		console.log('Listening on port 4201');
 	});
 }
 else {
-	app.listen(8080, function() {
+	app.listen((process.env.PORT || 8080, function() {
 		console.log('Listening on port 8080');
 	});
 }
