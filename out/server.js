@@ -21,8 +21,8 @@ app.get('/*', function(req, res) {
 });
 
 // Listen
-app.listen(4201, function() {
-	console.log('Listening on port 4201');
+app.listen(process.env.PORT || 4201, function() {
+	console.log('Listening!');
 
 	mongoose.connect(db.uri);
 });
