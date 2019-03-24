@@ -1,3 +1,29 @@
-<p>
-  internal-testing works!
-</p>
+<h1>DEBUG</h1>
+
+
+<form method="POST" >
+	<section>
+		<h4>Food Item Name:</h4>
+		<input type="text" name="foodItem-name" ng-model="">
+	</section>
+	<br>
+	<section>
+		<h4>Vendor</h4>
+		<input type="text" name="foodItem-vendor" ng-model="">
+	</section>
+	<br>
+  <section>
+  <label for="price"> <h4>Price: </h4> </label><br>
+  <input type="number" name="price" step="1" ng-model="">
+  </section>
+  <br>
+  <section>
+  <label for="stock"> <h4>Stock: </h4></label><br>
+  <input type="number" name="stock" step="1" ng-model="">
+  </section>
+  <br>
+  <br>
+	<section>
+		<input type=Submit value="Add item" ng-click="">
+	</section>
+</form>
