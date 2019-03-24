@@ -9,6 +9,7 @@ var foodItemSchema = new Schema({
 		get: x => Math.round(x),
 		set: x => Math.round(x)
 	},
+	price: Number,
 	created_at: Date,
 	updated_at: Date
 });
@@ -18,7 +19,7 @@ foodItemSchema.pre('save', function(next) {
 	this.updated_at = currentTime;
 	if (!this.created_at)
 		this.created_at = currentTime;
-	
+
 	next();
 });
 
