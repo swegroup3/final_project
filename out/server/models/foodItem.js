@@ -9,7 +9,7 @@ var foodItemSchema = new Schema({
 		get: x => Math.round(x),
 		set: x => Math.round(x)
 	},
-	price: Number,
+	quantity: Number,
 	created_at: Date,
 	updated_at: Date
 });
