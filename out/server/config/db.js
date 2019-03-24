@@ -1,3 +1,3 @@
 module.exports = {
-	uri: 'mongodb://admin:password2@ds161245.mlab.com:61245/neilljohnston-bootcamp3'
+	uri: 'mongodb://rantsdev:hUk8nf63lMi0@ds153495.mlab.com:53495/bodegadev'
 };
