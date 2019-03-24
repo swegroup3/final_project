@@ -11,6 +11,7 @@ import { PartnerComponent } from './partner/partner.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { AboutComponent } from './about/about.component';
 import { SignupComponent } from './signup/signup.component';
+import { InternalTestingComponent } from './internal-testing/internal-testing.component';
 
 
 
@@ -24,7 +25,8 @@ import { SignupComponent } from './signup/signup.component';
 		PartnerComponent,
 		InventoryComponent,
 		AboutComponent,
-		SignupComponent
+		SignupComponent,
+		InternalTestingComponent
 	],
 	imports: [
 		BrowserModule,
