@@ -1,16 +1,33 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<a class="navbar-brand" [routerLink]="['/home']">menu component</a>
 
-	<ul class="navbar-nav">
-		<li class="nav-item active">
-			<!--
+	<!--
 				The [routerLink] tag is the most annoying shit to type,
 				but it's necessary any time you want to route to another component.
 			-->
-			<a class="nav-link" [routerLink]="['/login']">Login</a>
+	<ul class="navbar-nav">
+		<li class="nav-item active">
+			<a class="nav-link" href="#">Home</a>
 		</li>
 		<li class="nav-item active">
-			<a class="nav-link" [routerLink]="['/cart']">Cart</a>
+			<a class="nav-link" href="#">About</a>
 		</li>
+		<li class="nav-item active">
+			<a class="nav-link" href="#">Partner</a>
+		</li>
+		<li class="nav-item active">
+			<a class="nav-link" href="#">Order Now</a>
+		</li>
+		<div class="d-flex justify-content-end">
+			<li class="nav-item active">
+				<a class="nav-link" [routerLink]="['/login']"><button type="button" class="btn btn-secondary">Log In</button></a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" href="#"><button type="button" class="btn btn-secondary">Sign Up</button></a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" [routerLink]="['/cart']"><i class="fas fa-shopping-cart fa-3x"></i></a>
+			</li>
+		</div>
 	</ul>
 </nav>
