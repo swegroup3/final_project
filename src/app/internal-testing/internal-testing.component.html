@@ -1,29 +1,54 @@
 <h1>DEBUG</h1>
 
-
-<form method="POST" >
-	<section>
-		<h4>Food Item Name:</h4>
-		<input type="text" name="foodItem-name" ng-model="">
-	</section>
-	<br>
-	<section>
-		<h4>Vendor</h4>
-		<input type="text" name="foodItem-vendor" ng-model="">
-	</section>
-	<br>
-  <section>
-  <label for="price"> <h4>Price: </h4> </label><br>
-  <input type="number" name="price" step="0.01" ng-model="">
-  </section>
-  <br>
-  <section>
-  <label for="quantity"> <h4>Quantity: </h4></label><br>
-  <input type="number" name="quantity" step="1" ng-model="">
-  </section>
-  <br>
-  <br>
-	<section>
-		<input type=Submit value="Add item" ng-click="">
-	</section>
-</form>
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<form method="POST">
+				<div class="form-group">
+					<label for="foodItem-name">Food Item Name:</label>
+					<input class="form-control" type="text" name="foodItem-name" ng-model="">
+				</div>
+				<div class="form-group">
+					<label for="foodItem-vendor">Vendor:</label>
+					<input class="form-control" type="text" name="foodItem-vendor" ng-model="">
+				</div>
+				<div class="form-group">
+					<label for="price">Price:</label><br>
+					<input class="form-control" type="number" name="price" step="0.01" ng-model="">
+				</div>
+				<div class="form-group">
+					<label for="quantity">Quantity:</label><br>
+					<input class="form-control" type="number" name="quantity" step="1" ng-model="">
+				</div>
+				  	<br>
+					<input type=Submit value="Add item" ng-click="">
+			</form>
+		</div>
+		<div class="col">
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th>Item</th>
+			      <th>Price</th>
+			      <th>Quantity</th>
+			      <th>Edit</th>
+			      <th>Remove</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	<!-- TODO: ng-repeat on rows -->
+			    <tr>
+			      <td>Test<!-- food item name --></td>
+			      <td>Test<!-- food item price --></td>
+			      <td>Test<!-- food item quantity --></td>
+			      <!-- <td><button type="button" class="btn btn-primary">Edit</button></td> -->
+			      <!-- TODO: ng click on the button to remove -->
+			      <!-- <td><button type="button" class="btn btn-danger">x</button></td> -->
+			    </tr>
+			  </tbody>
+			</table>
+			<!-- POP UP FORM -->
+			
+		</div>
+	</div>
+</div>
