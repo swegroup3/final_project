@@ -8,6 +8,8 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { AboutComponent } from './about/about.component';
 import { SignupComponent } from './signup/signup.component';
 import { InternalTestingComponent } from './internal-testing/internal-testing.component';
+import { HistoryComponent } from './history/history.component';
+import { AccountInfoComponent } from './account-info/account-info.component';
 
 
 const routes: Routes = [
@@ -47,6 +49,14 @@ const routes: Routes = [
 	{
 		path: 'debug',
 		component: InternalTestingComponent
+	},
+	{
+		path: 'history',
+		component: HistoryComponent
+	},
+	{
+		path: 'account',
+		component: AccountInfoComponent
 	}
 ];
 
