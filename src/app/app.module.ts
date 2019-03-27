@@ -14,6 +14,8 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { AboutComponent } from './about/about.component';
 import { SignupComponent } from './signup/signup.component';
 import { InternalTestingComponent } from './internal-testing/internal-testing.component';
+import { HistoryComponent } from './history/history.component';
+import { AccountInfoComponent } from './account-info/account-info.component';
 
 
 
@@ -28,7 +30,9 @@ import { InternalTestingComponent } from './internal-testing/internal-testing.co
 		InventoryComponent,
 		AboutComponent,
 		SignupComponent,
-		InternalTestingComponent
+		InternalTestingComponent,
+		HistoryComponent,
+		AccountInfoComponent
 	],
 	imports: [
 		BrowserModule,
