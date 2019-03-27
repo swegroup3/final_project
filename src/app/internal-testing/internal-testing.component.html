@@ -1,20 +1,19 @@
 <h1>DEBUG</h1>
 
-
-<form method="POST" >
+<form>
 	<section>
 		<h4>Food Item Name:</h4>
-		<input type="text" name="foodItem-name" ng-model="">
+		<input [(ngModel)]="data.name" type="text" name="foodItem-name">
 	</section>
 	<br>
 	<section>
 		<h4>Vendor</h4>
-		<input type="text" name="foodItem-vendor" ng-model="">
+		<input [(ngModel)]="data.vendor" type="text" name="foodItem-vendor">
 	</section>
 	<br>
   <section>
   <label for="price"> <h4>Price: </h4> </label><br>
-  <input type="number" name="price" step="0.01" ng-model="">
+  <input [(ngModel)]="data.price" type="number" name="price" step="0.01">
   </section>
   <br>
   <section>
@@ -24,6 +23,6 @@
   <br>
   <br>
 	<section>
-		<input type=Submit value="Add item" ng-click="">
+		<input type="button" value="Add item" (click)="post()">
 	</section>
 </form>

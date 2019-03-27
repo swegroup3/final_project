@@ -22,9 +22,7 @@ app.get('/*', function(req, res) {
 	res.sendFile(path.join(NG_APP_PATH, 'index.html'));
 });
 
-
 // Listen
 app.listen(process.env.PORT || 4201, function() {
 	console.log('Listening!');
 });
-	
