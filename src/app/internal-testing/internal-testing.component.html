@@ -4,30 +4,19 @@
 	<div class="row">
 		<div class="col">
 			<form>
-				<section>
-					<h4>Food Item Name:</h4>
-					<input [(ngModel)]="data.name" type="text" name="foodItem-name">
-				</section>
+				<h4>Food Item Name:</h4>
+				<input [(ngModel)]="data.name" type="text" name="foodItem-name">
 				<br>
-				<section>
-					<h4>Vendor</h4>
-					<input [(ngModel)]="data.vendor" type="text" name="foodItem-vendor">
-				</section>
+				<h4>Vendor</h4>
+				<input [(ngModel)]="data.vendor" type="text" name="foodItem-vendor">
 				<br>
-				<section>
-				<label for="price"> <h4>Price: </h4> </label><br>
+				<label for="price"> <h4>Price:</h4> </label><br>
 				<input [(ngModel)]="data.price" type="number" name="price" step="0.01">
-				</section>
 				<br>
-				<section>
-				<label for="quantity"> <h4>Quantity: </h4></label><br>
+				<label for="quantity"> <h4>Quantity:</h4></label><br>
 				<input type="number" name="quantity" step="1" ng-model="">
-				</section>
 				<br>
-				<br>
-				<section>
-					<input type="button" value="Add item" (click)="post()">
-				</section>
+				<input type="button" value="Add item" (click)="post()">
 			</form>
 		</div>
 		<div class="col">
@@ -42,19 +31,19 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			  	<!-- TODO: ng-repeat on rows -->
+			  	<!-- TODO: ng-repeat on rows, populate with current inventory -->
 			    <tr>
 			      <td>Test<!-- food item name --></td>
 			      <td>Test<!-- food item price --></td>
 			      <td>Test<!-- food item quantity --></td>
-			      <!-- <td><button type="button" class="btn btn-primary">Edit</button></td> -->
-			      <!-- TODO: ng click on the button to remove -->
-			      <!-- <td><button type="button" class="btn btn-danger">x</button></td> -->
+			      <!-- TODO: ng click on the button to edit item in inventory (call pop up form?) -->
+			      <td><button type="button" class="btn btn-danger">Edit</button></td>
+			      <!-- TODO: ng click on the button to remove item from inventory -->
+			      <td><button type="button" class="btn btn-danger">x</button></td>
 			    </tr>
 			  </tbody>
 			</table>
-			<!-- POP UP FORM -->
-			
+			<!-- TODO: pop up form for editing -->
 		</div>
 	</div>
 </div>
