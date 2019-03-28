@@ -1,3 +1,72 @@
-<p>
-  account-info works!
-</p>
+<div class="container">
+	<div class="row">
+		<div class="col">
+
+      <br>
+      <h3>Account Information</h3>
+
+      <!-- Account Info Form
+
+      NOTE: The placeholder attributes are placeholders. We could get the user's account information
+      from the database and use those attributes for the form placeholders.
+    -->
+
+      <form method="POST" > <!-- NOT SURE ABOUT ACTION -->
+      	<div class="form-group col-md-3" >
+      			<label for="inputFirstName">First Name</label>
+      			<input type="text" class="form-control" name="firstName" ng-model="" placeholder="Tyler" style="width: 300px;" required>
+      	</div>
+      	<div class="form-group col-md-3">
+      			<label for="inputLastName">Last Name</label>
+      			<input type="text" class="form-control" name="lastName" ng-model="" placeholder="Fonzi" style="width: 300px;" required>
+      	</div>
+        <div class="form-group col-md-3">
+      			<label for="inputEmail">Email</label>
+      			<input type="text" class="form-control" name="email" ng-model="" placeholder="tfonzi@ufl.edu" style="width: 300px;" required>
+      	</div>
+        <div class="form-group col-md-3">
+      			<label for="inputUsername">Username</label>
+      			<input type="text" class="form-control" name="username" ng-model="" placeholder="tfonzi" style="width: 300px;" required>
+      	</div>
+        <div class="form-group col-md-3">
+      			<label for="inputPassword">Password</label>
+      			<input type="text" class="form-control" name="password" ng-model="" placeholder="**********" style="width: 300px;" required>
+      	</div>
+        <div class="form-group col-md-3">
+      			<label for="inputReenterPassword" style="width: 300px;">Re-enter Password</label>
+      			<input type="text" class="form-control" name="reenterPassword" ng-model="" placeholder="**********" style="width: 300px;" required>
+      	</div>
+        <div class="form-group col-md-3">
+      			<label for="companyName" style="width: 300px;">Company/Organization Name</label>
+      			<input type="text" class="form-control" name="companyName" ng-model="" placeholder="RANTS" style="width: 300px;" required>
+      	</div>
+        <div class="form-group col-md-3">
+      			<input type=Submit class="btn btn-secondary" value="Update and Save" ng-click="">
+      	</div>
+
+      </form>
+
+    </div>
+		<div class="col">
+      <br>
+				<h3>Payment Information</h3>
+        <p>
+            Could have maybe the PayPal API here so people can change accounts/whatever
+        </p>
+
+        <div class ="row">
+          <div class ="col">
+            <input type=Submit class="btn btn-secondary" value="Return to Home" [routerLink]="['/home']">
+          </div>
+          <div class ="col">
+            <input type=Submit class="btn btn-secondary" value="Sign Out" ng-click="">
+          </div>
+
+        </div>
+
+
+
+
+		</div>
+	</div>
+</div>
