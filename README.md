@@ -25,3 +25,20 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## API
+
+Get a specific food item get /api/food/:name
+Get a specific user (Admin) GET /api/admin/user/:name
+Get a specific user (That User) GET /api/user/:name
+Get all users (Admin) GET /api/User
+Get all the food GET /api/food/
+Add a food item (Admin, Vendor, Employee) POST /api/food
+Update a food item (Admin, Vendor, Employee) PUT /api/food/
+Delete a food item (Admin, Vendor, Employee) DELETE /api/food/:name
+Delete all food items (Admin, Vendor, Employee) DELETE /api/food
+Update a user profile (That User) PUT (/api/user/)
+Update user permissions (Admin) PUT (/api/admin/user)
+Create a user POST (/api/user)
+Delete User (Admin) DELETE (/api/user/:user)
+Log in POST (/api/login)
