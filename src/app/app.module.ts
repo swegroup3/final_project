@@ -19,6 +19,7 @@ import { AccountInfoComponent } from './account-info/account-info.component';
 import { UpdateformComponent } from './updateform/updateform.component';
 import { VendorregistrationComponent } from './vendorregistration/vendorregistration.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
 
 
 
@@ -38,7 +39,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
 		AccountInfoComponent,
 		UpdateformComponent,
 		VendorregistrationComponent,
-		CheckoutComponent
+		CheckoutComponent,
+		OrderconfirmationComponent
 	],
 	imports: [
 		BrowserModule,
