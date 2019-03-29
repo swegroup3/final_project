@@ -16,6 +16,7 @@ import { SignupComponent } from './signup/signup.component';
 import { InternalTestingComponent } from './internal-testing/internal-testing.component';
 import { HistoryComponent } from './history/history.component';
 import { AccountInfoComponent } from './account-info/account-info.component';
+import { UpdateformComponent } from './updateform/updateform.component';
 
 
 
@@ -32,7 +33,8 @@ import { AccountInfoComponent } from './account-info/account-info.component';
 		SignupComponent,
 		InternalTestingComponent,
 		HistoryComponent,
-		AccountInfoComponent
+		AccountInfoComponent,
+		UpdateformComponent
 	],
 	imports: [
 		BrowserModule,

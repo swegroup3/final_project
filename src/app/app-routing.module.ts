@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -10,6 +10,7 @@ import { SignupComponent } from './signup/signup.component';
 import { InternalTestingComponent } from './internal-testing/internal-testing.component';
 import { HistoryComponent } from './history/history.component';
 import { AccountInfoComponent } from './account-info/account-info.component';
+import { UpdateformComponent } from './updateform/updateform.component';
 
 
 const routes: Routes = [
@@ -57,6 +58,10 @@ const routes: Routes = [
 	{
 		path: 'account',
 		component: AccountInfoComponent
+	},
+	{
+		path: 'updateform',
+		component: UpdateformComponent
 	}
 ];
 
