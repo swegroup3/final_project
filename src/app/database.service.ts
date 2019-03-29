@@ -13,7 +13,6 @@ export class DatabaseService {
 		private _http: HttpClient,
 		private _util: UtilityService) {}
 
-	// TODO what is this supposed to return
 	getAllFood() {
 		var temp;
 
@@ -22,8 +21,11 @@ export class DatabaseService {
 		).subscribe(res => {
 			temp = res;
 		}, err => {
+      console.log(err);
 			temp = undefined;
 		});
+    
+    return temp;
 	}
 
 	getFood(name) {
