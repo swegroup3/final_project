@@ -12,6 +12,7 @@ import { HistoryComponent } from './history/history.component';
 import { AccountInfoComponent } from './account-info/account-info.component';
 import { UpdateformComponent } from './updateform/updateform.component';
 import { VendorregistrationComponent } from './vendorregistration/vendorregistration.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 const routes: Routes = [
@@ -67,6 +68,10 @@ const routes: Routes = [
 	{
 		path: 'vendorreg',
 		component: VendorregistrationComponent
+	},
+	{
+		path: 'checkout',
+		component: CheckoutComponent
 	}
 ];
 

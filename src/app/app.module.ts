@@ -18,6 +18,7 @@ import { HistoryComponent } from './history/history.component';
 import { AccountInfoComponent } from './account-info/account-info.component';
 import { UpdateformComponent } from './updateform/updateform.component';
 import { VendorregistrationComponent } from './vendorregistration/vendorregistration.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 
@@ -36,7 +37,8 @@ import { VendorregistrationComponent } from './vendorregistration/vendorregistra
 		HistoryComponent,
 		AccountInfoComponent,
 		UpdateformComponent,
-		VendorregistrationComponent
+		VendorregistrationComponent,
+		CheckoutComponent
 	],
 	imports: [
 		BrowserModule,
