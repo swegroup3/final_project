@@ -17,6 +17,7 @@ import { InternalTestingComponent } from './internal-testing/internal-testing.co
 import { HistoryComponent } from './history/history.component';
 import { AccountInfoComponent } from './account-info/account-info.component';
 import { UpdateformComponent } from './updateform/updateform.component';
+import { VendorregistrationComponent } from './vendorregistration/vendorregistration.component';
 
 
 
@@ -34,7 +35,8 @@ import { UpdateformComponent } from './updateform/updateform.component';
 		InternalTestingComponent,
 		HistoryComponent,
 		AccountInfoComponent,
-		UpdateformComponent
+		UpdateformComponent,
+		VendorregistrationComponent
 	],
 	imports: [
 		BrowserModule,
