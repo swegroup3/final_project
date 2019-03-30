@@ -12,84 +12,29 @@ export class DatabaseService {
 	constructor(
 		private _http: HttpClient,
 		private _util: UtilityService) {}
-
+	//I've rewritten all the services, see comments in user service for details.
 	getAllFood() {
-		var temp;
-
-		this._http.get(
-			this._apiFood
-		).subscribe(res => {
-			temp = res;
-		}, err => {
-      console.log(err);
-			temp = undefined;
-		});
-    
-    return temp;
+		return this._http.get<any>(this._apiFood)
 	}
 
 	getFood(name) {
-		var temp;
-
-		this._http.get(
-			this._apiFood
-		).subscribe(res => { temp = res }, err => {
-			console.log(err);
-			temp = undefined;
-		});
-
-		return temp;
+		return this._http.get<any>(this._apiFood)
 	}
 
 	createFood(food) {
-		var temp;
-
-		this._http.post<any>(
-			this._apiFood, food, this._util.getAuthHeader()
-		).subscribe(res => { temp = res.status }, err => {
-			console.log(err);
-			temp = err.status;
-		});
-
-		return temp;
+		return this._http.post<any>(this._apiFood, food, this._util.getAuthHeader())
 	}
 
 	updateFood(food) {
-		var temp;
-
-		this._http.put<any>(
-			this._apiFood, food, this._util.getAuthHeader()
-		).subscribe(res => { temp = res.status }, err => {
-			console.log(err);
-			temp = err.status;
-		});
-
-		return temp;
+		this._http.put<any>(this._apiFood, food, this._util.getAuthHeader())
 	}
 
 	deleteFood(name) {
-		var temp;
-
 		this._http.delete<any>(
-			this._apiFood + '/' + name, this._util.getAuthHeader()
-		).subscribe(res => { temp = res.status }, err => {
-			console.log(err);
-			temp = err.status;
-		});
-
-		return temp;
+			this._apiFood + '/' + name, this._util.getAuthHeader())
 	}
 
 	deleteAllFood() {
-		var temp;
-
-		this._http.delete<any>(
-			this._apiFood, this._util.getAuthHeader()
-		).subscribe(res => {temp = res.status }, err => {
-			console.log(err);
-			temp = err.status;
-		});
-
-		return temp;
+		this._http.delete<any>(this._apiFood, this._util.getAuthHeader())
 	}
 }

@@ -6,36 +6,36 @@
 	<div class="form-group col-md-3">
 		<section>
 			<label for="inputNewEmail">Email</label>
-			<input type="email" class="form-control" ng-model="" required>
+			<input type="email" class="form-control" [(ngModel)]="registerUserData.email" required>
 		</section>
 	</div>
 	<div class="form-group col-md-3">
 		<section>
 			<label for="inputNewUsername">Username</label>
-			<input type="text" class="form-control" name="newUsername" ng-model="" required>
+			<input type="text" class="form-control" name="newUsername" [(ngModel)]="registerUserData.username" required>
 		</section>
 	</div>
 	<div class="form-group col-md-3">
 		<section>
 			<label for="inputNewPassword">Password</label>
-			<input type="text" class="form-control" name="newPassword" ng-model="" required>
+			<input type="text" class="form-control" name="newPassword" [(ngModel)]="registerUserData.password" required>
 		</section>
 	</div>
 	<div class="form-group col-md-3">
 		<section>
-			<label for="confirmNewPassword">Re-enter Password</label>
+			<label for="confirmNewPassword">Re-enter Password (nonfunctional)</label>
 			<input type="text" class="form-control" name="confirmPassword" ng-model="" required>
 		</section>
 	</div>
 	<div class="form-group col-md-3">
 		<section>
-			<label for="inputNewCompany">Company/Organization Name</label>
+			<label for="inputNewCompany">Company/Organization Name (nonfunctional)</label>
 			<input type="text" class="form-control" name="company" ng-model="">
 		</section>
 	</div>
 	<div class="form-group col-md-3">
 		<section>
-			<input class="btn btn-secondary" type=Submit value="Create a User" ng-click="" [routerLink]="['/home']">
+			<input class="btn btn-secondary" type=Submit value="Create a User" (click)="registerUser()" [routerLink]="['/home']">
 		</section>
 	</div>
 </form>

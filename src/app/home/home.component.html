@@ -7,16 +7,11 @@
 		<div class="col">
 			<h3>Today's Menu</h3>
 			<ul class="list-group">
-			  <li class="list-group-item">Chicken Salad Croissant</li>
-			  <li class="list-group-item">Turkey Club Wrap</li>
-			  <li class="list-group-item">Whole Milk</li>
-			  <li class="list-group-item">Greek Salad Wrap</li>
-			  <li class="list-group-item">Aha Soups</li>
+			<li *ngFor="let food of foods">
+				{{food.name}}
 			</ul>
 			<button type="button" class="btn btn-secondary" [routerLink]="['/inventory']">Start your Order as Guest</button>
 		</div>
 	</div>
 </div>
-<p>
-	{{ message }}
-</p>
+
