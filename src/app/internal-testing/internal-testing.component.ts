@@ -8,13 +8,20 @@ import { DatabaseService } from '../database.service';
 })
 export class InternalTestingComponent implements OnInit {
 	data = {};
+	foods = [];
 
 	constructor(private _databaseService: DatabaseService) { }
 
 	ngOnInit() {
+		this._databaseService.getAllFood()
+				.subscribe(
+					res => this.foods = res,
+					err => console.log(err)
+					);
 	}
 
 	post() {
 		this._databaseService.createFood(this.data);
 	}
+
 }

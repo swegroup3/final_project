@@ -33,20 +33,16 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			  	<!-- TODO: ng-repeat on rows, populate with current inventory -->
-			    <tr>
-			      <td>Test<!-- food item name --></td>
-			      <td>Test<!-- food item price --></td>
-			      <td>Test<!-- food item quantity --></td>
-			      <!-- TODO: ng click on the button to edit item in inventory (call pop up form?) -->
+			    <tr *ngFor="let food of foods">
+			      <td>{{food.name}}</td>
+			      <td>{{food.price}}</td>
+			      <td>{{food.quantity}}</td>
 			      <td><button type="button" class="btn btn-danger" [routerLink]="['/updateform']">Edit</button></td>
 			      <!-- TODO: ng click on the button to remove item from inventory -->
 			      <td><button type="button" class="btn btn-danger">x</button></td>
 			    </tr>
 			  </tbody>
 			</table>
-			<!-- TODO: pop up form for editing -->
-			<div></div>
 
 		</div>
 	</div>

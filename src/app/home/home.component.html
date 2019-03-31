@@ -1,14 +1,13 @@
-<h1>Home</h1>
 <div class="container">
 	<div class="row">
 		<div class="col">
 			<img src="assets/images/bodegaLogo.png" alt="The Bodega">
 		</div>
 		<div class="col">
+			<br>
 			<h3>Today's Menu</h3>
 			<ul class="list-group">
-			<li *ngFor="let food of foods">
-				{{food.name}}
+				<li class="list-group-item" *ngFor="let food of foods">{{food.name}}</li>
 			</ul>
 			<button type="button" class="btn btn-secondary" [routerLink]="['/inventory']">Start your Order as Guest</button>
 		</div>
