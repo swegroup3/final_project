@@ -59,7 +59,7 @@
             <input type=Submit class="btn btn-secondary" value="Return to Home" [routerLink]="['/home']">
           </div>
           <div class ="col">
-            <input type=Submit class="btn btn-secondary" value="Sign Out" ng-click="">
+            <input type=Submit class="btn btn-secondary" value="Sign Out" (click)="_userService.logout()" [routerLink]="['/home']">
           </div>
 
         </div>
