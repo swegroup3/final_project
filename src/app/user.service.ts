@@ -20,7 +20,7 @@ export class UserService {
 		private _util: UtilityService,
 		private _router: Router) {}
 
-		
+
 	/*I've rewritten the service functions, see the comment on login for details.
 	register(username, password, email) {
 		var userData = {
@@ -29,7 +29,7 @@ export class UserService {
 			email: email,
 			password: password
 		};
-		
+
 		var temp;
 
 		this._http.post(
@@ -42,7 +42,7 @@ export class UserService {
 		return temp;
 	}
 	*/
-	
+
 	getType(){
 		const token = localStorage.getItem('token');
 		let payload, type;
@@ -54,28 +54,28 @@ export class UserService {
 		}
 		else return null;
 	}
-		
+
 	isEmployee(){
 		return this.getType() === "employee"
 	}
-	
+
 	isVendor(){
 		return this.getType() === "vendor"
 	}
-	
+
 	isAdmin(){
 		return this.getType() === "admin"
 	}
-	
+
 	isEVA(){
 		const type = this.getType()
 		return type === "employee" || type === "vendor" || type === "admin"
 	}
-	
+
 	loggedIn(){
 		return !!localStorage.getItem('token');
 	}
-	
+
 	logout(){
 		localStorage.removeItem('token');
 		this._router.navigate(['/home']);
@@ -83,13 +83,13 @@ export class UserService {
 	register(user) {
 		return this._http.post<any>(this._apiRegister, user);
 	}
-	
+
 	login(user) {
 		return this._http.post<any>(this._apiLogin, user);
     }
-	
+
 	/* I've left this up as a reference, but there are a couple of issues with it. We don't want the username and password directly here, we want a user object based on the schema we defined earlier. We also don't want to use .subscribe here or do error handling here, we should leave that to the page that calls these functions.  See here: https://blog.angularindepth.com/when-to-subscribe-a83332ae053
-	
+
 	login(username, password) {
 		var userData = {
 			username: username,
@@ -124,20 +124,22 @@ export class UserService {
 		return temp;
 	}*/
 	getUser(username) {
-		return this._http.get(this._apiAdmin + '/' + username, this._util.getAuthHeader())
+		return this._http.get<any>(this._apiAdmin + '/' + username, this._util.getAuthHeader())
 	}
 
 	// As user, get self
 	getSelf() {
 		var token = this._util.getToken();
-		var username = JSON.parse(token).username;
-		return this._http.get(this._apiUser + '/' + username, this._util.getAuthHeader())
+		var username = token.username;
+		console.log(this._apiUser + '/' + username)
+		console.log(this._util.getAuthHeader())
+		return this._http.get<any>(this._apiUser + '/' + username, this._util.getAuthHeader())
 	}
 
 	// As admin, get a list of all users
 	// TODO what is this supposed to return
 	getAllUsers() {
-		return this._http.get(this._apiUser, this._util.getAuthHeader())
+		return this._http.get<any>(this._apiUser, this._util.getAuthHeader())
 	}
 
 	updateUser(user) {

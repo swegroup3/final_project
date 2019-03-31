@@ -64,7 +64,7 @@ function verifyEVA(req, res, next) {
 }
 
 //To be called for routes restricted to their owner
-function verifyOwner(req, res, next) {
+function verifyOwnerBody(req, res, next) {
     if (!req.headers.authorization){
         return res.status(401).send('Unauthorized request')
     }
@@ -76,7 +76,7 @@ function verifyOwner(req, res, next) {
     if (!payload) {
         return res.status(401).send('Unauthorized request')
     }
-	if (payload.name != req.body.username){
+	if (payload.username != req.body.username){
 		return res.status(401).send('Unauthorized request')
 	}
     next()
@@ -127,6 +127,7 @@ router.post('/login', (req, res)=>{
 
 //View a specific user, admin version
 router.get('/admin/user/:name', verifyAdmin, (req, res) => {
+
     User.findOne({username: req.params.username}), (err, user) => {
         if (err)
             console.log(err);
@@ -136,13 +137,33 @@ router.get('/admin/user/:name', verifyAdmin, (req, res) => {
 });
 
 //View self, restricted to same user
-router.get('/user/:name', verifyOwner, (req, res) => {
-    User.findOne({username: req.params.username}), (err, user) => {
-        if (err)
-            console.log(err);
-        else
-            res.json(user);
-    };
+router.get('/user/:name', (req, res) => {
+
+  if (!req.headers.authorization){
+      return res.status(401).send('Unauthorized request')
+  }
+  let token = req.headers.authorization
+  if (token === 'null'){
+      return res.status(401).send('Unauthorized request')
+  }
+  let payload = jwt.verify(token, secret_key)
+  if (!payload) {
+      return res.status(401).send('Unauthorized request')
+  }
+if (payload.username != req.params.name){
+  var errormessage = "Unauthorized request, token name is : " + payload.name + ", request name is : " + req.params.name
+  return res.status(401).send(errormessage)
+}
+
+    let thisname = req.params.name
+    User.findOne({username: thisname}, (err, user) => {
+        if (err){
+          console.log(err);
+        }
+        else{
+          res.json(user);
+        }
+    })
 });
 
 // View all the users, admin-only
@@ -193,7 +214,7 @@ router.post('/food/', verifyEVA, (req, res) => {
 
 //Update a food item by name, Employee, Vendor, Admin-only
 router.put('/food/', verifyEVA, (req, res) => {
-    FoodItem.findOneAndUpdate({name: req.body.name}, 
+    FoodItem.findOneAndUpdate({name: req.body.name},
 	{
 	$set:{vendor:req.body.vendor, price: req.body.price,quantity: req.body.quantity}
 	}, (err, doc) =>{
@@ -224,7 +245,7 @@ router.delete('/food/', verifyEVA, (req, res) => {
 });
 
 //Update a user's profile by name, restricted to that user
-router.put('/user/', verifyOwner, (req, res) => {
+router.put('/user/', verifyOwnerBody, (req, res) => {
     User.findOneAndUpdate({username: req.body.username}, {$set:{email:req.body.email}}, (err, doc) =>{
 		if(err){
 			console.log(err);
@@ -236,7 +257,7 @@ router.put('/user/', verifyOwner, (req, res) => {
 
 //Update a user's type, admin-only
 router.put('/admin/user/', verifyAdmin, (req, res) => {
-    User.findOneAndUpdate({username: req.body.username}, 
+    User.findOneAndUpdate({username: req.body.username},
 	{
 		$set:{type:req.body.type}
 	}, (err, doc) =>{
@@ -258,5 +279,5 @@ router.delete('/user/:user', verifyEVA, (req, res) => {
     });
 });
 
-	
+
 module.exports = router;

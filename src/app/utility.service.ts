@@ -6,9 +6,12 @@ import { Injectable } from '@angular/core';
 // Some utility functions (i.e. cookies management) for use in other services
 export class UtilityService {
 	constructor() {}
-	
+
 	getToken() {
-		return localStorage.getItem('token');
+		var rawtoken =  localStorage.getItem('token');
+		var payload=rawtoken.split('.')[1]
+		payload=window.atob(payload);
+		return JSON.parse(payload);
 	}
 
 	setToken(token) {
@@ -18,7 +21,7 @@ export class UtilityService {
 	getAuthHeader() {
 		return {
 			headers: {
-				['Authorization']: this.getToken()
+				['Authorization']: localStorage.getItem("token")
 			}
 		}
 	}
