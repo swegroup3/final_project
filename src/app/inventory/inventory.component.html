@@ -11,19 +11,12 @@
     </tr>
   </thead>
   <tbody>
-  	<!-- TODO: ng-repeat on rows, populate with current inventory -->
-    <tr>
-      <td>Cilantro Chicken</td>
-      <td>8.5</td>
-      <td>2</td>
-      <!-- TODO: ng click on the button -->
+  	<tr *ngFor="let food of foods">
+      <td>{{food.name}}</td>
+      <td>{{food.price}}</td>
+      <td>{{food.quantity}}</td>
       <td><button type="button" class="btn btn-danger">Add to Cart</button></td>
-    </tr>
-    <tr>
-      <td>Chicken Salad Croissant</td>
-      <td>9.5</td>
-      <td>5</td>
-      <td><button type="button" class="btn btn-danger">Add to Cart</button></td>
+      <!-- TODO: ng click on the button to remove item from inventory -->
     </tr>
   </tbody>
 </table>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from '../database.service';
 
 @Component({
 	selector: 'app-inventory',
@@ -6,8 +7,21 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent implements OnInit {
-	constructor() { }
+	data = {};
+	foods = [];
+
+	constructor(private _databaseService: DatabaseService) { }
 
 	ngOnInit() {
+		this._databaseService.getAllFood()
+				.subscribe(
+					res => this.foods = res,
+					err => console.log(err)
+					);
 	}
+
+	post() {
+		this._databaseService.createFood(this.data).subscribe(console.log, console.log);
+	}
+
 }
