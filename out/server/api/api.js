@@ -30,7 +30,7 @@ function verifyAdmin(req, res, next) {
     if (!req.headers.authorization){
         return res.status(401).send('Unauthorized request')
     }
-    let token = req.headers.authorization.split(' ')[1]
+    let token = req.headers.authorization
     if (token === 'null'){
         return res.status(401).send('Unauthorized request')
     }
@@ -49,7 +49,7 @@ function verifyEVA(req, res, next) {
     if (!req.headers.authorization){
         return res.status(401).send('Unauthorized request')
     }
-    let token = req.headers.authorization.split(' ')[1]
+    let token = req.headers.authorization
     if (token === 'null'){
         return res.status(401).send('Unauthorized request')
     }
@@ -68,7 +68,7 @@ function verifyOwner(req, res, next) {
     if (!req.headers.authorization){
         return res.status(401).send('Unauthorized request')
     }
-    let token = req.headers.authorization.split(' ')[1]
+    let token = req.headers.authorization
     if (token === 'null'){
         return res.status(401).send('Unauthorized request')
     }
@@ -85,9 +85,10 @@ function verifyOwner(req, res, next) {
 //Register route (unrestricted)
 router.post('/register', (req, res)=>{
 	let userData = req.body
-	let user = new User(userData);
+    let user = new User(userData);
+    console.log(user);
 	user.setPassword(userData.password);
-	user.type = "User";
+    user.type = "user";
 	var id = mongoose.Types.ObjectId();
 	user._id = id;
 	user.save((error, registeredUser)=>{

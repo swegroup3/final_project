@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import { registerContentQuery } from '@angular/core/src/render3';
 
 @Component({
 	selector: 'app-signup',
@@ -19,7 +20,6 @@ export class SignupComponent implements OnInit {
 		this._user.register(this.registerUserData)
 		.subscribe(
 			res => {
-			console.log(res);
 			localStorage.setItem('token', res.token);
 			this._router.navigate(['/home']);
 			},

@@ -21,7 +21,7 @@ export class InternalTestingComponent implements OnInit {
 	}
 
 	post() {
-		this._databaseService.createFood(this.data);
+		this._databaseService.createFood(this.data).subscribe(console.log, console.log);
 	}
 
 }
