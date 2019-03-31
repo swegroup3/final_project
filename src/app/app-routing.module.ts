@@ -10,7 +10,6 @@ import { SignupComponent } from './signup/signup.component';
 import { InternalTestingComponent } from './internal-testing/internal-testing.component';
 import { HistoryComponent } from './history/history.component';
 import { AccountInfoComponent } from './account-info/account-info.component';
-import { UpdateformComponent } from './updateform/updateform.component';
 import { VendorregistrationComponent } from './vendorregistration/vendorregistration.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
@@ -61,10 +60,6 @@ const routes: Routes = [
 	{
 		path: 'account',
 		component: AccountInfoComponent
-	},
-	{
-		path: 'updateform',
-		component: UpdateformComponent
 	},
 	{
 		path: 'vendorreg',

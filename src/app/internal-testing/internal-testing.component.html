@@ -19,6 +19,24 @@
 				<br>
 				<input type="button" value="Add item" (click)="post()">
 			</form>
+
+			<br>
+			<form>
+				<label for="foodItem-name">Item Name</label><br>
+				<input [(ngModel)]="data.name" type="text" name="foodItem-name">
+				<br>
+				<label for="foodItem-vendor">Vendor Name</label><br>
+				<input [(ngModel)]="data.vendor" type="text" name="foodItem-vendor">
+				<br>
+				<label for="price">Price</label><br>
+				<input [(ngModel)]="data.price" type="number" name="price" step="0.01">
+				<br>
+				<label for="quantity">Quantity</label><br>
+				<input [(ngModel)]="data.quantity" type="number" name="quantity" step="1">
+				<br>
+				<input type="button" class="btn btn-success" value="Update" (click)="post()">
+      		</form>
+
 		</div>
 		<div class="col">
 			<!-- current inventory table -->
@@ -37,7 +55,7 @@
 			      <td>{{food.name}}</td>
 			      <td>{{food.price}}</td>
 			      <td>{{food.quantity}}</td>
-			      <td><button type="button" class="btn btn-danger" [routerLink]="['/updateform']">Edit</button></td>
+			      <td><button type="button" class="btn btn-danger">Edit</button></td>
 			      <!-- TODO: ng click on the button to remove item from inventory -->
 			      <td><button type="button" class="btn btn-danger">x</button></td>
 			    </tr>
