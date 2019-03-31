@@ -28,11 +28,17 @@ export class AccountInfoComponent implements OnInit {
     .subscribe(
       res => {
       console.log(res);
-      this._router.navigate(['/account']);
+      //this._router.navigate(['/account']);
       },
       err => {
       console.log(err);
       }
     );
   }
+
+
+  showConfirm(){
+    document.getElementById('confirmation').style.display = "block";
+  }
+
 }

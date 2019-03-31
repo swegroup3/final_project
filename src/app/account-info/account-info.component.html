@@ -40,11 +40,23 @@
       			<label for="companyName" style="width: 300px;">Company/Organization Name</label>
       			<input type="text" class="form-control" name="companyName" ng-model="" placeholder="" style="width: 300px;" required>
       	</div>
+
+				<script>
+
+				</script>
+
+
         <div class="form-group col-md-3">
-      			<input type=Submit class="btn btn-secondary" value="Update and Save" (click)="updateUser()">
+      			<input type=Submit class="btn btn-secondary" value="Update and Save" (click)="updateUser(); showConfirm()">
       	</div>
 
       </form>
+
+			<div id="confirmation" style = "display:none; color:red;" > <strong>Changes Updated!</strong> </div>
+
+
+
+
 
     </div>
 		<div class="col">
