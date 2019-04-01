@@ -4,13 +4,15 @@
 		<thead>
 			<tr>
 				<th>Item</th>
+				<th>Quantity</th>
 				<th>Remove</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr *ngFor="let item of cart">
 				<td>{{item.name}}</td>
-				<td><span style="color: red;" class="glyphicon glyphicon-remove"></span></td>
+				<td>{{item.quantity}}</td>
+				<td><button type="button" class="btn btn-danger" (click)="remove(item.name)">Remove</button></td>
 			</tr>
 		</tbody>
 	</table>

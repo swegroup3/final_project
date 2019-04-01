@@ -300,8 +300,19 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
                 if (err)
                     console.log(err);
                 else {
-                    item.quantity = 1;
-                    foundCart.items.push(item);
+                    var foundIndex = undefined;
+                    foundCart.items.forEach((item, index) => {
+                        if (item.name == foodItemName)
+                            foundIndex = index;
+                    });
+
+                    if (foundIndex != undefined)
+                        foundCart.items[foundIndex].quantity++;
+                    else {
+                        item.quantity = 1;
+                        foundCart.items.push(item);
+                    }
+                    
                     foundCart.save();
                     res.json(foundCart);
                 }
@@ -326,8 +337,9 @@ router.put('/cart/', verifyOwnerBody, (req, res) => {
                     foundIndex = index;
             });
 
-            if (foundIndex) {
+            if (foundIndex != undefined) {
                 foundCart.items[foundIndex].quantity--;
+                console.log(foundCart.items[foundIndex])
                 if (foundCart.items[foundIndex].quantity == 0)
                     foundCart.items.splice(foundIndex, 1);
             }

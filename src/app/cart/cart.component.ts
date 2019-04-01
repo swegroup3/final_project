@@ -17,4 +17,8 @@ export class CartComponent implements OnInit {
 			this.cart = res.items;
 		}, console.log);
 	}
+
+	remove(foodItemName) {
+		this._cartService.deleteItemFromCart(foodItemName).subscribe(console.log, console.log);
+	}
 }
