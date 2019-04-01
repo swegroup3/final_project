@@ -23,6 +23,7 @@ export class InternalTestingComponent implements OnInit {
 
 	post() {
 		this._databaseService.createFood(this.data).subscribe(console.log, console.log);
+		window.location.reload();
 	}
 
 	updateItemInForm(food) {
@@ -31,6 +32,7 @@ export class InternalTestingComponent implements OnInit {
 
 	update() {
 		this._databaseService.updateFood(this.updateData).subscribe(console.log, console.log);
+		window.location.reload();
 	}
 
 }
