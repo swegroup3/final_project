@@ -17,7 +17,7 @@
 				<label for="quantity">Quantity</label><br>
 				<input type="number" name="quantity" step="1" ng-model="">
 				<br>
-				<input type="button" value="Add item" (click)="post()">
+				<input type="button" class="btn btn-success" value="Add item" (click)="post()">
 			</form>
 
 			<!-- update food information form -->
@@ -60,8 +60,7 @@
 			      <td>{{food.price}}</td>
 			      <td>{{food.quantity}}</td>
 			      <td><button type="button" class="btn btn-danger" (click)="updateItemInForm(food)">Edit</button></td>
-			      <!-- TODO: ng click on the button to remove item from inventory -->
-			      <td><button type="button" class="btn btn-danger">x</button></td>
+			      <td><button type="button" class="btn btn-danger" (click)="delete(food)">x</button></td>
 			    </tr>
 			  </tbody>
 			</table>

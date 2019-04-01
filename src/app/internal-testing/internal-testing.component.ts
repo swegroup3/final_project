@@ -30,6 +30,11 @@ export class InternalTestingComponent implements OnInit {
 		const returnedTarget = Object.assign(this.updateData, food);
 	}
 
+	delete(food) {
+		this._databaseService.deleteFood(food.name).subscribe(console.log, console.log);
+		window.location.reload();
+	}
+
 	update() {
 		this._databaseService.updateFood(this.updateData).subscribe(console.log, console.log);
 		window.location.reload();
