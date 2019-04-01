@@ -9,6 +9,7 @@ import { getToken } from '@angular/router/src/utils/preactivation';
 export class CartService {
 	private _api = '/api';
 	private _apiCart = this._api + '/cart';
+	private _apiPurchase = this._apiCart + '/purchase';
 
 	constructor(
 		private _http: HttpClient,
@@ -33,5 +34,12 @@ export class CartService {
 			foodItemName: foodItemName
 		};
 		return this._http.put<any>(this._apiCart, data, this._util.getAuthHeader());
+	}
+
+	purchaseCart() {
+		var data = {
+			username: this._util.getToken().username
+		};
+		return this._http.post<any>(this._apiPurchase, data, this._util.getAuthHeader());
 	}
 }

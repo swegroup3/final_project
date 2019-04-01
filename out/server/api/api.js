@@ -381,8 +381,14 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
     Cart.findOneAndDelete({username: username}, (err, cart) => {
         if (err)
             console.log(err);
-        else
-            console.log(cart);
+        else {
+            data = {
+                cart: cart,
+                pin: Math.floor(Math.random() * 10000)
+            };
+            console.log(data);
+            res.json(data);
+        }
     });
 });
 

@@ -2,30 +2,34 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart.service';
 
 @Component({
-  selector: 'app-checkout',
-  templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.css']
+	selector: 'app-checkout',
+	templateUrl: './checkout.component.html',
+	styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  cart = []
+	cart = []
 
 
-  constructor(private _checkoutService: CartService) { }
+	constructor(private _cartService: CartService) { }
 
-  ngOnInit() {
-    this._checkoutService.getCart().subscribe(res => {
+	ngOnInit() {
+		this._cartService.getCart().subscribe(res => {
 			this.cart = res.items;
 		}, console.log);
-  }
+	}
 
-  getTotalPrice(){
+	getTotalPrice(){
+		let sum = 0;
+		for(let i = 0; i < this.cart.length; i++){
+			let product = this.cart[i].price * this.cart[i].quantity;
+			sum += product;
+		}
+		return sum;
+	}
 
-    let sum = 0;
-    for(let i = 0; i < this.cart.length; i++){
-      let product = this.cart[i].price * this.cart[i].quantity;
-      sum += product;
-    }
-    return sum;
-  }
-
+	purchase() {
+		this._cartService.purchaseCart().subscribe(res => {
+			alert(res.pin);
+		}, console.log);
+	}
 }
