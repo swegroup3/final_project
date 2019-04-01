@@ -8,6 +8,7 @@ import { DatabaseService } from '../database.service';
 })
 export class InternalTestingComponent implements OnInit {
 	data = {};
+	updateData = {};
 	foods = [];
 
 	constructor(private _databaseService: DatabaseService) { }
@@ -22,6 +23,14 @@ export class InternalTestingComponent implements OnInit {
 
 	post() {
 		this._databaseService.createFood(this.data).subscribe(console.log, console.log);
+	}
+
+	updateItemInForm(food) {
+		const returnedTarget = Object.assign(this.updateData, food);
+	}
+
+	update() {
+		this._databaseService.updateFood(this.updateData).subscribe(console.log, console.log);
 	}
 
 }

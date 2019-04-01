@@ -1,26 +1,9 @@
-<h1>DEBUG</h1>
-
+<h2>Internal Testing/Vendor</h2>
 <div class="container">
 	<div class="row">
 		<div class="col">
 			<!-- input food form -->
-			<form>
-				<h4>Food Item Name:</h4>
-				<input [(ngModel)]="data.name" type="text" name="foodItem-name">
-				<br>
-				<h4>Vendor</h4>
-				<input [(ngModel)]="data.vendor" type="text" name="foodItem-vendor">
-				<br>
-				<label for="price"> <h4>Price:</h4> </label><br>
-				<input [(ngModel)]="data.price" type="number" name="price" step="0.01">
-				<br>
-				<label for="quantity"> <h4>Quantity:</h4></label><br>
-				<input type="number" name="quantity" step="1" ng-model="">
-				<br>
-				<input type="button" value="Add item" (click)="post()">
-			</form>
-
-			<br>
+			<h2>Add Item</h2>
 			<form>
 				<label for="foodItem-name">Item Name</label><br>
 				<input [(ngModel)]="data.name" type="text" name="foodItem-name">
@@ -32,9 +15,28 @@
 				<input [(ngModel)]="data.price" type="number" name="price" step="0.01">
 				<br>
 				<label for="quantity">Quantity</label><br>
-				<input [(ngModel)]="data.quantity" type="number" name="quantity" step="1">
+				<input type="number" name="quantity" step="1" ng-model="">
 				<br>
-				<input type="button" class="btn btn-success" value="Update" (click)="post()">
+				<input type="button" value="Add item" (click)="post()">
+			</form>
+
+			<!-- update food information form -->
+			<br>
+			<h2>Edit Item</h2>
+			<form>
+				<label for="updateName">Item Name</label><br>
+				<input [(ngModel)]="updateData.name" type="text" name="updateName">
+				<br>
+				<label for="updateVendor">Vendor Name</label><br>
+				<input [(ngModel)]="updateData.vendor" type="text" name="updateVendor">
+				<br>
+				<label for="updatePrice">Price</label><br>
+				<input [(ngModel)]="updateData.price" type="number" name="updatePrice" step="0.01">
+				<br>
+				<label for="updateQuantity">Quantity</label><br>
+				<input [(ngModel)]="updateData.quantity" type="number" name="updateQuantity" step="1">
+				<br>
+				<input type="button" class="btn btn-success" value="Update" (click)="update()">
       		</form>
 
 		</div>
@@ -44,6 +46,7 @@
 			  <thead>
 			    <tr>
 			      <th>Item</th>
+			      <th>Vendor</th>
 			      <th>Price</th>
 			      <th>Quantity</th>
 			      <th>Edit</th>
@@ -53,9 +56,10 @@
 			  <tbody>
 			    <tr *ngFor="let food of foods">
 			      <td>{{food.name}}</td>
+			      <td>{{food.vendor}}</td>
 			      <td>{{food.price}}</td>
 			      <td>{{food.quantity}}</td>
-			      <td><button type="button" class="btn btn-danger">Edit</button></td>
+			      <td><button type="button" class="btn btn-danger" (click)="updateItemInForm(food)">Edit</button></td>
 			      <!-- TODO: ng click on the button to remove item from inventory -->
 			      <td><button type="button" class="btn btn-danger">x</button></td>
 			    </tr>

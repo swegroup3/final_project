@@ -26,7 +26,7 @@ export class DatabaseService {
 	}
 
 	updateFood(food) {
-		this._http.put<any>(this._apiFood, food, this._util.getAuthHeader())
+		return this._http.put<any>(this._apiFood, food, this._util.getAuthHeader())
 	}
 
 	deleteFood(name) {
