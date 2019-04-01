@@ -13,6 +13,8 @@ export class CartComponent implements OnInit {
 		private _cartService: CartService) { }
 
 	ngOnInit() {
-		this._cartService.getCart().subscribe(console.log, console.log);
+		this._cartService.getCart().subscribe(res => {
+			this.cart = res.items;
+		}, console.log);
 	}
 }
