@@ -9,6 +9,7 @@ const router = express.Router();
 
 const FoodItem = require('../models/foodItem');
 const User = require('../models/user');
+const Cart = require('../models/cart');
 const secret_key = "X6jDkr1zqn2Du7uUnjT0CA5wem660RYc32M2F9COPEgYY5px2KYy7OuVWtEcg6E"
 
 const db = require('../config/db');
@@ -279,5 +280,98 @@ router.delete('/user/:user', verifyEVA, (req, res) => {
     });
 });
 
+// Add item to cart, create cart if one does not exist for the user
+router.post('/cart/', verifyOwnerBody, (req, res) => {
+    var username = req.body.username;
+    var foodItemName = req.body.foodItemName;
+    
+    Cart.findOne({username: username}, (err, foundCart) => {
+        if (err)
+            console.log(err);
+        else {
+            // Create a new cart if one does not exist
+            if (foundCart == null) {
+                foundCart = new Cart({
+                    username: username
+                });
+            }
+
+            FoodItem.findOne({name: foodItemName}, (err, item) => {
+                if (err)
+                    console.log(err);
+                else {
+                    item.quantity = 1;
+                    foundCart.items.push(item);
+                    foundCart.save();
+                    res.json(foundCart);
+                }
+            });
+        }
+    });
+
+});
+
+// Delete item from cart
+router.put('/cart/', verifyOwnerBody, (req, res) => {
+    var username = req.body.username;
+    var foodItemName = req.body.foodItemName;
+
+    Cart.findOne({username: username}, (err, foundCart) => {
+        if (err)
+            console.log(err)
+        else {
+            var foundIndex = undefined;
+            foundCart.items.forEach((item, index) => {
+                if (item.name == foodItemName)
+                    foundIndex = index;
+            });
+
+            if (foundIndex) {
+                foundCart.items[foundIndex].quantity--;
+                if (foundCart.items[foundIndex].quantity == 0)
+                    foundCart.items.splice(foundIndex, 1);
+            }
+            foundCart.save();
+        }
+    });
+});
+
+// Get the cart
+router.get('/cart/:name', (req, res) => {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+    if (payload.username != req.params.name){
+        var errormessage = "Unauthorized request, token name is : " + payload.name + ", request name is : " + req.params.name
+        return res.status(401).send(errormessage)
+    }
+
+    Cart.findOne({username: req.params.name}, (err, cart) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(cart);
+    });
+});
+
+// Purchase the cart, will also delete the cart
+router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
+    var username = req.body.username;
+
+    Cart.findOneAndDelete({username: username}, (err, cart) => {
+        if (err)
+            console.log(err);
+        else
+            console.log(cart);
+    });
+});
 
 module.exports = router;
