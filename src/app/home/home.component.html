@@ -1,16 +1,18 @@
 <div class="container">
 	<div class="row">
 		<div class="col">
-			<img src="assets/images/bodegaLogo.png" alt="The Bodega">
+			<img src="assets/images/bodegaLogo.png" alt="The Bodega" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
 		</div>
 		<div class="col">
 			<br>
 			<h3>Today's Menu</h3>
-			<ul class="list-group">
-				<li class="list-group-item" *ngFor="let food of foods">{{food.name}}</li>
-			</ul>
+			<div style="overflow-y: auto; min-width: 200px; height: 550px; border: 1px solid black;">
+				<ul class="list-group">
+					<li class="list-group-item" *ngFor="let food of foods">{{food.name}}</li>
+				</ul>
+			</div>
+			<br>
 			<button type="button" class="btn btn-secondary" [routerLink]="['/inventory']">Start your Order as Guest</button>
 		</div>
 	</div>
 </div>
-

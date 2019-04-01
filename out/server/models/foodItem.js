@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var foodItemSchema = new Schema({
-	name: String,
+	name: {
+		type: String,
+		required: true,
+		unique: true
+	},
 	vendor: String,
 	price: {
 		type: Number,

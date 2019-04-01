@@ -247,7 +247,7 @@ router.delete('/food/', verifyEVA, (req, res) => {
 
 //Update a user's profile by name, restricted to that user
 router.put('/user/', verifyOwnerBody, (req, res) => {
-    User.findOneAndUpdate({username: req.body.username}, {$set:{email:req.body.email}}, (err, doc) =>{
+    User.findOneAndUpdate({username: req.body.username}, {$set:{email:req.body.email, firstname:req.body.firstname, lastname:req.body.lastname}}, (err, doc) =>{
 		if(err){
 			console.log(err);
 			res.status(400).send(err);

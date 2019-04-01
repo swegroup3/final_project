@@ -30,11 +30,11 @@ export class DatabaseService {
 	}
 
 	deleteFood(name) {
-		this._http.delete<any>(
+		return this._http.delete<any>(
 			this._apiFood + '/' + name, this._util.getAuthHeader())
 	}
 
 	deleteAllFood() {
-		this._http.delete<any>(this._apiFood, this._util.getAuthHeader())
+		return this._http.delete<any>(this._apiFood, this._util.getAuthHeader())
 	}
 }
