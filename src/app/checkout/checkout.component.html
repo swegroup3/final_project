@@ -3,12 +3,22 @@
     <table class="table table-striped table-hover">
       <tr>
         <th>Item</th>
-        <th>Remove</th>
+        <th>Price</th>
+        <th>Quantity</th>
+
       </tr>
-      <tr>
-        <td></td>
-        <td><span style="color: red;" class="glyphicon glyphicon-remove"></span></td>
-      </tr>
+      <tbody>
+        <tr *ngFor="let item of cart">
+          <td>{{item.name}}</td>
+          <td>{{item.price}}</td>
+          <td>{{item.quantity}}
+        </tr>
+        <tr>
+          <td><strong>Total Price: </strong></td>
+          <td><strong>{{getTotalPrice()}}</strong></td>
+        </tr>
+      </tbody>
+
     </table>
 </div>
 
