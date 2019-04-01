@@ -9,6 +9,7 @@ const router = express.Router();
 
 const FoodItem = require('../models/foodItem');
 const User = require('../models/user');
+const Cart = require('../models/cart');
 const secret_key = "X6jDkr1zqn2Du7uUnjT0CA5wem660RYc32M2F9COPEgYY5px2KYy7OuVWtEcg6E"
 
 const db = require('../config/db');
@@ -279,5 +280,70 @@ router.delete('/user/:user', verifyEVA, (req, res) => {
     });
 });
 
+// Add item to cart, create cart if one does not exist for the user
+router.post('/cart/', verifyOwnerBody, (req, res) => {
+    var username = req.body.username;
+    var foodItemName = req.body.foodItemName;
+    var cart = undefined;
+    var foodItem = undefined;
+
+    Cart.findOne({username: username}, (err, cart_) => {
+        if (err)
+            console.log(err);
+        else
+            cart = cart_;
+    });
+
+    FoodItem.findOne({name: food}, (err, item) => {
+        if (err)
+            console.log(err);
+        else
+            foodItem = item;
+    });
+});
+
+// Delete item from cart
+router.put('/cart/', verifyOwnerBody, (req, res) => {
+    var username = req.body.username;
+    var food = req.body.food;
+
+    Cart.findOne({username: username}, (err, cart_) => {
+        if (err)
+            console.log(err);
+        else
+            console.log(cart_);
+    });
+
+    FoodItem.findOne({name: food}, (err, item) => {
+        if (err)
+            console.log(err);
+        else
+            console.log(item);
+    });
+});
+
+// Get the cart
+router.get('/cart/', verifyOwnerBody, (req, res) => {
+    var username = req.body.username;
+
+    Cart.findOne({username: username}, (err, cart) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(cart);
+    });
+});
+
+// Purchase the cart, will also delete the cart
+router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
+    var username = req.body.username;
+
+    Cart.findOneAndDelete({username: username}, (err, cart) => {
+        if (err)
+            console.log(err);
+        else
+            console.log(cart);
+    });
+});
 
 module.exports = router;
