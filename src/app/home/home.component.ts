@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../database.service';
+import { UserService } from '../user.service';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { DatabaseService } from '../database.service';
 export class HomeComponent implements OnInit {
 	
 	foods = [];
-	constructor(private _databaseService: DatabaseService) { }
+	constructor(private _databaseService: DatabaseService, private _userService: UserService) { }
 
 	ngOnInit() {
 		this._databaseService.getAllFood()
