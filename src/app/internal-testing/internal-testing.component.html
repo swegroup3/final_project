@@ -15,7 +15,7 @@
 				<input [(ngModel)]="data.price" type="number" name="price" step="0.01">
 				<br>
 				<label for="quantity">Quantity</label><br>
-				<input type="number" name="quantity" step="1" ng-model="">
+				<input type="number" name="quantity" step="1" [(ngModel)]="data.quantity">
 				<br>
 				<input type="button" class="btn btn-success" value="Add item" (click)="post()">
 			</form>
