@@ -15,7 +15,7 @@
       <td>{{food.name}}</td>
       <td>{{food.price}}</td>
       <td>{{food.quantity}}</td>
-      <td><button type="button" class="btn btn-danger">Add to Cart</button></td>
+      <td><button type="button" class="btn btn-danger" (click)="add(food.name)">Add to Cart</button></td>
       <!-- TODO: ng click on the button to remove item from inventory -->
     </tr>
   </tbody>

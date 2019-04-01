@@ -284,49 +284,77 @@ router.delete('/user/:user', verifyEVA, (req, res) => {
 router.post('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
     var foodItemName = req.body.foodItemName;
-    var cart = undefined;
-    var foodItem = undefined;
-
-    Cart.findOne({username: username}, (err, cart_) => {
+    
+    Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
             console.log(err);
-        else
-            cart = cart_;
+        else {
+            // Create a new cart if one does not exist
+            if (foundCart == null) {
+                foundCart = new Cart({
+                    username: username
+                });
+            }
+
+            FoodItem.findOne({name: foodItemName}, (err, item) => {
+                if (err)
+                    console.log(err);
+                else {
+                    item.quantity = 1;
+                    foundCart.items.push(item);
+                    foundCart.save();
+                    res.json(foundCart);
+                }
+            });
+        }
     });
 
-    FoodItem.findOne({name: food}, (err, item) => {
-        if (err)
-            console.log(err);
-        else
-            foodItem = item;
-    });
 });
 
 // Delete item from cart
 router.put('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
-    var food = req.body.food;
+    var foodItemName = req.body.foodItemName;
 
-    Cart.findOne({username: username}, (err, cart_) => {
+    Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
-            console.log(err);
-        else
-            console.log(cart_);
-    });
+            console.log(err)
+        else {
+            var foundIndex = undefined;
+            foundCart.items.forEach((item, index) => {
+                if (item.name == foodItemName)
+                    foundIndex = index;
+            });
 
-    FoodItem.findOne({name: food}, (err, item) => {
-        if (err)
-            console.log(err);
-        else
-            console.log(item);
+            if (foundIndex) {
+                foundCart.items[foundIndex].quantity--;
+                if (foundCart.items[foundIndex].quantity == 0)
+                    foundCart.items.splice(foundIndex, 1);
+            }
+            foundCart.save();
+        }
     });
 });
 
 // Get the cart
-router.get('/cart/', verifyOwnerBody, (req, res) => {
-    var username = req.body.username;
+router.get('/cart/:name', (req, res) => {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+    if (payload.username != req.params.name){
+        var errormessage = "Unauthorized request, token name is : " + payload.name + ", request name is : " + req.params.name
+        return res.status(401).send(errormessage)
+    }
 
-    Cart.findOne({username: username}, (err, cart) => {
+    Cart.findOne({username: req.params.name}, (err, cart) => {
         if (err)
             console.log(err);
         else
