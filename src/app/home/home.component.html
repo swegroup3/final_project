@@ -12,7 +12,8 @@
 				</ul>
 			</div>
 			<br>
-			<button type="button" class="btn btn-secondary" [routerLink]="['/inventory']">Start your Order as Guest</button>
+			<button type="button" class="btn btn-secondary" [routerLink]="['/inventory']" *ngIf="!_userService.loggedIn()">Start your Order as Guest</button>
+			<button type="button" class="btn btn-secondary" [routerLink]="['/inventory']" *ngIf="_userService.loggedIn()">Start your Order</button>
 		</div>
 	</div>
 </div>
