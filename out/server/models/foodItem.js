@@ -4,8 +4,7 @@ var Schema = mongoose.Schema;
 var foodItemSchema = new Schema({
 	name: {
 		type: String,
-		required: true,
-		unique: true
+		required: true
 	},
 	vendor: String,
 	price: Number,
