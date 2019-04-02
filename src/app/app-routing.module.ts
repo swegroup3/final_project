@@ -50,7 +50,7 @@ const routes: Routes = [
 		component: SignupComponent
 	},
 	{
-		path: 'debug',
+		path: 'vendor',
 		component: InternalTestingComponent
 	},
 	{

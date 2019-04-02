@@ -19,7 +19,7 @@
 				<a class="nav-link" [routerLink]="['/inventory']">Order Now</a>
 			</li>
 			<li class="nav-item active">
-				<a class="nav-link" *ngIf="_userService.isAdmin()" [routerLink]="['/debug']">Admin</a>
+				<a class="nav-link" *ngIf="_userService.isEVA()" [routerLink]="['/vendor']">Vendor</a>
 			</li>
 		</ul>
 		<ul class="navbar-nav ml-auto">
