@@ -9,7 +9,6 @@ import { CartService } from '../cart.service';
 export class CheckoutComponent implements OnInit {
 	cart = []
 
-
 	constructor(private _cartService: CartService) { }
 
 	ngOnInit() {
@@ -29,7 +28,7 @@ export class CheckoutComponent implements OnInit {
 
 	purchase() {
 		this._cartService.purchaseCart().subscribe(res => {
-			alert(res.pin);
+    localStorage.setItem("pin",res.pin);
 		}, console.log);
 	}
 }

@@ -12,4 +12,8 @@ export class OrderconfirmationComponent implements OnInit {
   ngOnInit() {
   }
 
+  getPin(){
+    return localStorage.getItem("pin");
+  }
+
 }
