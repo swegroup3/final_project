@@ -380,8 +380,9 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
     var errorFlag = false;
 
     Cart.findOneAndDelete({username: username}, (err, cart) => {
-        if (err)
+        if (err) {
             console.log(err);
+        }
         else {
             if (cart) {
                 // Check if the order is valid
@@ -398,6 +399,11 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                 FoodItem.find({'name': {$in: itemNames}}, (err, foundItems) => {
                     if (err) {
                         console.log(err);
+                    }
+                    else if (itemNames.length != foundItems.length) {
+                        var message = "Could not find all items in shopping cart."
+                        console.log(message);
+                        res.status(409).send(message);
                     }
                     else {
                         var toUpdate = [];
@@ -458,8 +464,6 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                                     }
                                 });
                             });
-
-                            console.log(errorFlag);
 
                             data = {
                                 cart: cart,
