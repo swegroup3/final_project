@@ -377,17 +377,105 @@ router.get('/cart/:name', (req, res) => {
 // Purchase the cart, will also delete the cart
 router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
+    var errorFlag = false;
 
     Cart.findOneAndDelete({username: username}, (err, cart) => {
         if (err)
             console.log(err);
         else {
-            data = {
-                cart: cart,
-                pin: Math.floor(Math.random() * 10000)
-            };
-            console.log(data);
-            res.json(data);
+            if (cart) {
+                // Check if the order is valid
+                itemNames = [];
+                newCart = [];
+                cart.items.forEach(item => {
+                    itemNames.push(item.name);
+                    newCart.push({
+                        name: item.name,
+                        quantity: item.quantity
+                    });
+                });
+
+                FoodItem.find({'name': {$in: itemNames}}, (err, foundItems) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        var toUpdate = [];
+                        var toDelete = [];
+
+                        var compare = function(x, y) {
+                            return x.name.localeCompare(y.name);
+                        }
+
+                        newCart.sort(compare);
+                        foundItems.sort(compare);
+
+                        foundItems.forEach((foundItem, index) => {
+                            var item = newCart[index];
+                            var newQuantity = foundItem.quantity - item.quantity;
+
+                            if (newQuantity < 0) {
+                                var message = "Shopping cart contains an invalid quantity.";
+                                console.log(message);
+                                errorFlag = true;
+                                res.status(409).send(message);
+                            }
+                            else if (newQuantity == 0) {
+                                toDelete.push({
+                                    name: item.name
+                                });
+                            }
+                            else {
+                                toUpdate.push({
+                                    name: item.name,
+                                    newQuantity: newQuantity
+                                });
+                            }
+                        });
+                        
+                        if (!errorFlag) {
+                            // Update the items with a non-zero quantity
+                            toUpdate.forEach(item => {
+                                FoodItem.findOneAndUpdate({name: item.name}, {
+                                    $set: {quantity: item.newQuantity}
+                                }, (err, foodItem) => {
+                                    if (err)
+                                        console.log(err);
+                                    else {
+                                        console.log("Updated an item:");
+                                        console.log(foodItem);
+                                    }
+                                });
+                            });
+                            // Delete the items with a zero quantity
+                            toDelete.forEach(item => {
+                                FoodItem.findOneAndDelete({name: item.name}, (err, foodItem) => {
+                                    if (err)
+                                        console.log(err);
+                                    else {
+                                        console.log("Deleted an item:");
+                                        console.log(foodItem);
+                                    }
+                                });
+                            });
+
+                            console.log(errorFlag);
+
+                            data = {
+                                cart: cart,
+                                pin: Math.floor(Math.random() * 10000)
+                            };
+                            console.log(data);
+                            res.json(data);
+                        }
+                    }
+                });
+            }
+            else {
+                var message = "No shopping cart found.";
+                console.log(message)
+                res.status(409).send(message);
+            }
         }
     });
 });

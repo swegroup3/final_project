@@ -23,7 +23,9 @@ export class InternalTestingComponent implements OnInit {
 
 	post() {
 		this._databaseService.createFood(this.data).subscribe(console.log, console.log);
-		window.location.reload();
+		// Having the page reload immediately caused the post to not happen - reload happens too fast!
+		// And ditto with the following reloads.
+		//window.location.reload();
 	}
 
 	updateItemInForm(food) {
@@ -32,12 +34,12 @@ export class InternalTestingComponent implements OnInit {
 
 	delete(food) {
 		this._databaseService.deleteFood(food.name).subscribe(console.log, console.log);
-		window.location.reload();
+		//window.location.reload();
 	}
 
 	update() {
 		this._databaseService.updateFood(this.updateData).subscribe(console.log, console.log);
-		window.location.reload();
+		//window.location.reload();
 	}
 
 }
