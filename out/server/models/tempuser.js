@@ -26,3 +26,5 @@ userSchema.methods.validPassword = function(password) {
 // Export the model
 User = mongoose.model('User', userSchema, 'Users');
 module.exports = User;
+
+// haha lowercase u
