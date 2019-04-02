@@ -1,0 +1,54 @@
+<h1>Create a New User</h1>
+
+<form method="POST" >
+	<div class="form-group col-md-3">
+		<section>
+			<label for="inputNewEmail">Email</label>
+			<input type="email" class="form-control" name="newEmail" [(ngModel)]="registerUserData.email" required>
+		</section>
+	</div>
+	<div class="form-group col-md-3">
+		<section>
+			<label for="inputNewUsername">Username</label>
+			<input type="text" class="form-control" name="newUsername" [(ngModel)]="registerUserData.username" required>
+		</section>
+	</div>
+	<div class="form-group col-md-3">
+		<section>
+			<label for="inputNewFirstname">First name</label>
+			<input type="text" class="form-control" name="newFirstname" [(ngModel)]="registerUserData.firstname" required>
+		</section>
+	</div>
+	<div class="form-group col-md-3">
+		<section>
+			<label for="inputNewLastname">Last name</label>
+			<input type="text" class="form-control" name="newLastname" [(ngModel)]="registerUserData.lastname" required>
+		</section>
+	</div>
+	<div class="form-group col-md-3">
+		<section>
+			<label for="inputNewPassword">Password</label>
+			<input type="password" class="form-control" name="password" id="password" [(ngModel)]="registerUserData.password" required>
+		</section>
+	</div>
+	<!--
+	<div class="form-group col-md-3">
+		<section>
+			<label for="confirmNewPassword">Re-enter Password (nonfunctional)</label>
+			<input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>
+			<span id="message"></span>
+		</section>
+	</div>
+	<div class="form-group col-md-3">
+		<section>
+			<label for="inputNewCompany">Company/Organization Name (nonfunctional)</label>
+			<input type="text" class="form-control" name="company">
+		</section>
+	</div>
+	-->
+	<div class="form-group col-md-3">
+		<section>
+			<input class="btn btn-secondary" type=Submit value="Create a User" (click)="registerUser()" [routerLink]="['/home']">
+		</section>
+	</div>
+</form>

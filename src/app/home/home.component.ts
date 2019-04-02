@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from '../database.service';
+import { UserService } from '../user.service';
+
 
 @Component({
 	selector: 'app-home',
@@ -6,10 +9,16 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	constructor() { }
+	
+	foods = [];
+	constructor(private _databaseService: DatabaseService, private _userService: UserService) { }
 
 	ngOnInit() {
+		this._databaseService.getAllFood()
+			.subscribe(
+				res => this.foods = res,
+				err => console.log(err)
+				);
 	}
 
-	message = "This text comes from home.component.ts."
 }

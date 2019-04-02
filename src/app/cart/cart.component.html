@@ -1,3 +1,23 @@
-<p>
-	cart component
-</p>
+<h1>Shopping Cart</h1>
+<div class="tableWrapper">
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th>Item</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Remove</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let item of cart">
+				<td>{{item.name}}</td>
+				<td>{{item.price}}</td>
+				<td>{{item.quantity}}</td>
+				<td><button type="button" class="btn btn-danger" (click)="remove(item.name)">Remove</button></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<button type="button" class="btn btn-secondary" [routerLink]="['/checkout']">Proceed to Checkout</button>

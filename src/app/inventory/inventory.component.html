@@ -1,0 +1,22 @@
+<h1>Cafe Inventory</h1>
+<div style="overflow-y: auto; min-width: 200px; height: 400px; border: 1px solid black;">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Add to Cart</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr *ngFor="let food of foods">
+      <td>{{food.name}}</td>
+      <td>{{food.price}}</td>
+      <td>{{food.quantity}}</td>
+      <td><button type="button" class="btn btn-danger" (click)="add(food.name)">Add to Cart</button></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<button type="button" class="btn btn-success" [routerLink]="['/cart']">View Shopping Cart</button>
