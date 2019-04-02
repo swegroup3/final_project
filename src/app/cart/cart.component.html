@@ -12,7 +12,7 @@
 		<tbody>
 			<tr *ngFor="let item of cart">
 				<td>{{item.name}}</td>
-				<td>{{item.price}}</td>
+				<td>{{item.price.toFixed(2)}}</td>
 				<td>{{item.quantity}}</td>
 				<td><button type="button" class="btn btn-danger" (click)="remove(item.name)">Remove</button></td>
 			</tr>
