@@ -1,69 +1,80 @@
-<h2>Vendor Page</h2>
 <div class="container">
 	<div class="row">
 		<div class="col">
 			<!-- input food form -->
-			<h2>Add Item</h2>
-			<form>
-				<label for="foodItem-name">Item Name</label><br>
-				<input [(ngModel)]="data.name" type="text" name="foodItem-name">
-				<br>
-				<label for="foodItem-vendor">Vendor Name</label><br>
-				<input [(ngModel)]="data.vendor" type="text" name="foodItem-vendor">
-				<br>
-				<label for="price">Price</label><br>
-				<input [(ngModel)]="data.price" type="number" name="price" step="0.01">
-				<br>
-				<label for="quantity">Quantity</label><br>
-				<input type="number" name="quantity" step="1" [(ngModel)]="data.quantity">
-				<br>
-				<input type="button" class="btn btn-success" value="Add item" (click)="post()">
-			</form>
-
-			<!-- update food information form -->
 			<br>
-			<h2>Edit Item</h2>
-			<form>
-				<label for="updateName">Item Name</label><br>
-				<input [(ngModel)]="updateData.name" type="text" name="updateName">
+			<h2>Inventory Edit Page</h2>
+
+			<div class ='row'>
+				<div class ='col'>
+					<h2>Add Item</h2>
+					<form>
+						<label for="foodItem-name">Item Name</label><br>
+						<input [(ngModel)]="data.name" type="text" name="foodItem-name">
+						<br>
+						<label for="foodItem-vendor">Vendor Name</label><br>
+						<input [(ngModel)]="data.vendor" type="text" name="foodItem-vendor">
+						<br>
+						<label for="price">Price</label><br>
+						<input [(ngModel)]="data.price" type="number" name="price" step="0.01">
+						<br>
+						<label for="quantity">Quantity</label><br>
+						<input type="number" name="quantity" step="1" [(ngModel)]="data.quantity">
+						<br>
+						<input type="button" class="btn btn-success" value="Add item" (click)="post()">
+					</form>
+				 </div>
+
+				<!-- update food information form -->
 				<br>
-				<label for="updateVendor">Vendor Name</label><br>
-				<input [(ngModel)]="updateData.vendor" type="text" name="updateVendor">
-				<br>
-				<label for="updatePrice">Price</label><br>
-				<input [(ngModel)]="updateData.price" type="number" name="updatePrice" step="0.01">
-				<br>
-				<label for="updateQuantity">Quantity</label><br>
-				<input [(ngModel)]="updateData.quantity" type="number" name="updateQuantity" step="1">
-				<br>
-				<input type="button" class="btn btn-success" value="Update" (click)="update()">
-      		</form>
+				<div class ='col'>
+					<h2>Edit Item</h2>
+					<form>
+						<label for="updateName">Item Name</label><br>
+						<input [(ngModel)]="updateData.name" type="text" name="updateName">
+						<br>
+						<label for="updateVendor">Vendor Name</label><br>
+						<input [(ngModel)]="updateData.vendor" type="text" name="updateVendor">
+						<br>
+						<label for="updatePrice">Price</label><br>
+						<input [(ngModel)]="updateData.price" type="number" name="updatePrice" step="0.01">
+						<br>
+						<label for="updateQuantity">Quantity</label><br>
+						<input [(ngModel)]="updateData.quantity" type="number" name="updateQuantity" step="1">
+						<br>
+						<input type="button" class="btn btn-success" value="Update" (click)="update()">
+		      		</form>
+				</div>
+			</div>
 
 		</div>
 		<div class="col">
+			<br>
 			<!-- current inventory table -->
-			<table class="table table-striped">
-			  <thead>
-			    <tr>
-			      <th>Item</th>
-			      <th>Vendor</th>
-			      <th>Price</th>
-			      <th>Quantity</th>
-			      <th>Edit</th>
-			      <th>Remove</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr *ngFor="let food of foods">
-			      <td>{{food.name}}</td>
-			      <td>{{food.vendor}}</td>
-			      <td>{{food.price.toFixed(2)}}</td>
-			      <td>{{food.quantity}}</td>
-			      <td><button type="button" class="btn btn-danger" (click)="updateItemInForm(food)">Edit</button></td>
-			      <td><button type="button" class="btn btn-danger" (click)="delete(food)">x</button></td>
-			    </tr>
-			  </tbody>
-			</table>
+			<div style="overflow-y: auto; min-width: 200px; height: 550px; border: 1px solid black;">
+				<table class="table table-striped">
+				  <thead>
+				    <tr>
+				      <th>Item</th>
+				      <th>Vendor</th>
+				      <th>Price</th>
+				      <th>Quantity</th>
+				      <th>Edit</th>
+				      <th>Remove</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr *ngFor="let food of foods; let i = index" [class.active]="i == selectedRow">
+				      <td>{{food.name}}</td>
+				      <td>{{food.vendor}}</td>
+				      <td>{{food.price.toFixed(2)}}</td>
+				      <td>{{food.quantity}}</td>
+				      <td><button type="button" class="btn btn-danger" (click)="updateItemInForm(food); setClickedRow(i)">Edit</button></td>
+				      <td><button type="button" class="btn btn-danger" (click)="delete(food)">x</button></td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
 
 		</div>
 	</div>
