@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
+const crypto = require('crypto');
 
 
 const FoodItem = require('../models/foodItem');

@@ -14,6 +14,7 @@ export class UserService {
 	private _apiLogin = this._api + '/login'
 	private _apiAdmin = this._api + '/admin/user';
 	private _apiUser = this._api + '/user';
+	private _apiGuest = this._api + '/guest';
 
 	constructor(
 		private _http: HttpClient,
@@ -44,13 +45,30 @@ export class UserService {
 		return this.getType() === "admin"
 	}
 
+	isGuest(){
+		return this.getType() === "guest"
+	}
+
 	isEVA(){
 		const type = this.getType()
 		return type === "employee" || type === "vendor" || type === "admin"
 	}
 
 	loggedIn(){
-		return !!localStorage.getItem('token');
+		// Generate a guest token if no token exists
+		if (!localStorage.getItem('token')) {
+			// TODO find a way to not have to subscribe within this function
+			this._http.get<any>(this._apiGuest).subscribe(
+				res => {
+					localStorage.setItem('token', res.token);
+				},
+				console.log
+			);
+			return false;
+		}
+		else {
+			return !this.isGuest();
+		}
 	}
 
 	logout(){
