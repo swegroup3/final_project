@@ -10,6 +10,7 @@ export class InternalTestingComponent implements OnInit {
 	data = {};
 	updateData = {};
 	foods = [];
+	selectedRow = -1;
 
 	constructor(private _databaseService: DatabaseService) { }
 
@@ -41,5 +42,14 @@ export class InternalTestingComponent implements OnInit {
 		this._databaseService.updateFood(this.updateData).subscribe(console.log, console.log);
 		//window.location.reload();
 	}
+
+	setClickedRow(index){
+		this.selectedRow = index;
+		console.log(index);
+	}
+
+
+
+
 
 }
