@@ -484,4 +484,16 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
     });
 });
 
+// Generate a guest token
+router.get('/guest/', (req, res) => {
+    var randomName = 'guest_' + crypto.randomBytes(10).toString('hex');
+    var payload = {
+        username: randomName,
+        type: 'guest'
+    };
+    let token = jwt.sign(payload, secret_key)
+    // Making an assumption here that this user will not exist in the database
+    res.status(200).send({token})
+});
+
 module.exports = router;

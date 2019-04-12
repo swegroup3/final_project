@@ -20,29 +20,6 @@ export class UserService {
 		private _util: UtilityService,
 		private _router: Router) {}
 
-
-	/*I've rewritten the service functions, see the comment on login for details.
-	register(username, password, email) {
-		var userData = {
-			username: username,
-			type: '',
-			email: email,
-			password: password
-		};
-
-		var temp;
-
-		this._http.post(
-			this._apiRegister, userData
-		).subscribe(res => { temp = res }, err => {
-			console.log(err);
-			temp = err;
-		});
-
-		return temp;
-	}
-	*/
-
 	getType(){
 		const token = localStorage.getItem('token');
 		let payload, type;
@@ -86,43 +63,8 @@ export class UserService {
 
 	login(user) {
 		return this._http.post<any>(this._apiLogin, user);
-    }
-
-	/* I've left this up as a reference, but there are a couple of issues with it. We don't want the username and password directly here, we want a user object based on the schema we defined earlier. We also don't want to use .subscribe here or do error handling here, we should leave that to the page that calls these functions.  See here: https://blog.angularindepth.com/when-to-subscribe-a83332ae053
-
-	login(username, password) {
-		var userData = {
-			username: username,
-			password: password
-		};
-
-		var temp;
-
-		this._http.post<any>(
-			this._apiLogin, userData
-		).subscribe(res => {
-			this._util.setToken(res.token);
-			temp = res.status;
-		}, err => {
-			console.log(err);
-			temp = err.status;
-		});
-		return temp;
 	}
-*/
-	// As admin, get a specific user
-	/*getUser(username) {
-		var temp;
 
-		this._http.get(
-			this._apiAdmin + '/' + username, this._util.getAuthHeader()
-		).subscribe(res => { temp = res }, err => {
-			console.log(err);
-			temp = undefined;
-		});
-
-		return temp;
-	}*/
 	getUser(username) {
 		return this._http.get<any>(this._apiAdmin + '/' + username, this._util.getAuthHeader())
 	}
@@ -137,7 +79,6 @@ export class UserService {
 	}
 
 	// As admin, get a list of all users
-	// TODO what is this supposed to return
 	getAllUsers() {
 		return this._http.get<any>(this._apiUser, this._util.getAuthHeader())
 	}
