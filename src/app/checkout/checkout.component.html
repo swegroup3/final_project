@@ -10,12 +10,12 @@
       <tbody>
         <tr *ngFor="let item of cart">
           <td>{{item.name}}</td>
-          <td>{{item.price}}</td>
+          <td>{{item.price.toFixed(2)}}</td>
           <td>{{item.quantity}}
         </tr>
         <tr>
           <td><strong>Total Price: </strong></td>
-          <td><strong>{{getTotalPrice()}}</strong></td>
+          <td><strong>{{getTotalPrice().toFixed(2)}}</strong></td>
         </tr>
       </tbody>
 

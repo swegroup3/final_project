@@ -1,4 +1,4 @@
-<h2>Internal Testing/Vendor</h2>
+<h2>Vendor Page</h2>
 <div class="container">
 	<div class="row">
 		<div class="col">
@@ -57,7 +57,7 @@
 			    <tr *ngFor="let food of foods">
 			      <td>{{food.name}}</td>
 			      <td>{{food.vendor}}</td>
-			      <td>{{food.price}}</td>
+			      <td>{{food.price.toFixed(2)}}</td>
 			      <td>{{food.quantity}}</td>
 			      <td><button type="button" class="btn btn-danger" (click)="updateItemInForm(food)">Edit</button></td>
 			      <td><button type="button" class="btn btn-danger" (click)="delete(food)">x</button></td>
