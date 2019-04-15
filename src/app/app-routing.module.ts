@@ -13,6 +13,7 @@ import { AccountInfoComponent } from './account-info/account-info.component';
 import { VendorregistrationComponent } from './vendorregistration/vendorregistration.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
+import { AdminDashComponent } from './admin-dash/admin-dash.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,10 @@ const routes: Routes = [
 	{
 		path: 'confirmation',
 		component: OrderconfirmationComponent
+	},
+	{
+		path: 'admin',
+		component: AdminDashComponent
 	}
 ];
 
