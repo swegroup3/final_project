@@ -20,6 +20,7 @@ import { VendorregistrationComponent } from './vendorregistration/vendorregistra
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
 import { AdminDashComponent } from './admin-dash/admin-dash.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -40,7 +41,8 @@ import { AdminDashComponent } from './admin-dash/admin-dash.component';
 		VendorregistrationComponent,
 		CheckoutComponent,
 		OrderconfirmationComponent,
-		AdminDashComponent
+		AdminDashComponent,
+		FooterComponent
 	],
 	imports: [
 		BrowserModule,
