@@ -1,20 +1,21 @@
-<footer class="footer bg-light text-sm-left">
+<footer class="footer bg-light text-sm-left mt-3">
 	<div class="container py-3">
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-sm-6 col-md-8">
 				<h4>The Bodega</h4>
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro error exercitationem sequi consequatur libero odit quod quaerat quisquam molestias in quibusdam, quasi ipsum neque voluptas nesciunt vel facilis hic totam?</p>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+				<p>Porro error exercitationem sequi consequatur libero odit quod quaerat quisquam molestias in quibusdam, quasi ipsum neque voluptas nesciunt vel facilis hic totam?</p>
 			</div>
-			<div class="col-sm-3">
-				<h5>Site</h5>
+			<div class="col-sm-3 col-md-2">
 				<ul class="list-unstyled text-muted">
 					<li><a [routerLink]="['/home']">Home</a></li>
 					<li><a [routerLink]="['/inventory']">Order Now</a></li>
+					<li><a [routerLink]="['/login']">Log In</a></li>
+					<li><a [routerLink]="['/signup']">Sign Up</a></li>
 					<li><a [routerLink]="['/cart']">My Cart</a></li>
 				</ul>
 			</div>
-			<div class="col-sm-3">
-				<h5>Contact</h5>
+			<div class="col-sm-3 col-md-2">
 				<ul class="list-unstyled">
 					<li><a [routerLink]="['/about']">About Us</a></li>
 					<li><a [routerLink]="['/partner']">Be a Partner</a></li>
@@ -22,9 +23,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="footer-copyright text-sm-center bg-white">
-		<div class="container py-1">
-			<p>© 2019, The Bodega</p>
-		</div>
+	<div class="footer-copyright text-center bg-white py-1">
+		<p>© 2019 The Bodega</p>
 	</div>
 </footer>
