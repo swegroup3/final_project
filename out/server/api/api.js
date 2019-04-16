@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
+const crypto = require('crypto');
 
 
 const FoodItem = require('../models/foodItem');
@@ -326,6 +327,7 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
 router.put('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
     var foodItemName = req.body.foodItemName;
+    console.log('request to remove item from cart:', username, foodItemName);
 
     Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
@@ -339,7 +341,7 @@ router.put('/cart/', verifyOwnerBody, (req, res) => {
 
             if (foundIndex != undefined) {
                 foundCart.items[foundIndex].quantity--;
-                console.log(foundCart.items[foundIndex])
+                // console.log(foundCart.items[foundIndex])
                 if (foundCart.items[foundIndex].quantity == 0)
                     foundCart.items.splice(foundIndex, 1);
             }
@@ -482,6 +484,18 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
             }
         }
     });
+});
+
+// Generate a guest token
+router.get('/guest/', (req, res) => {
+    var randomName = 'guest_' + crypto.randomBytes(10).toString('hex');
+    var payload = {
+        username: randomName,
+        type: 'guest'
+    };
+    let token = jwt.sign(payload, secret_key)
+    // Making an assumption here that this user will not exist in the database
+    res.status(200).send({token})
 });
 
 module.exports = router;
