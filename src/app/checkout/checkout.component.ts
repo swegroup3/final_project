@@ -28,7 +28,7 @@ export class CheckoutComponent implements OnInit {
 
 	purchase() {
 		this._cartService.purchaseCart().subscribe(res => {
-    localStorage.setItem("pin",res.pin);
+    		localStorage.setItem("pin",res.pin);
 		}, console.log);
 	}
 }

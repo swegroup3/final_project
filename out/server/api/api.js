@@ -327,6 +327,7 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
 router.put('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
     var foodItemName = req.body.foodItemName;
+    console.log('request to remove item from cart:', username, foodItemName);
 
     Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
@@ -340,7 +341,7 @@ router.put('/cart/', verifyOwnerBody, (req, res) => {
 
             if (foundIndex != undefined) {
                 foundCart.items[foundIndex].quantity--;
-                console.log(foundCart.items[foundIndex])
+                // console.log(foundCart.items[foundIndex])
                 if (foundCart.items[foundIndex].quantity == 0)
                     foundCart.items.splice(foundIndex, 1);
             }
