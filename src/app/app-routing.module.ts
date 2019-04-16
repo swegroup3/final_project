@@ -14,6 +14,10 @@ import { VendorregistrationComponent } from './vendorregistration/vendorregistra
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
 import { AdminDashComponent } from './admin-dash/admin-dash.component';
+import {AdminGuard} from './admin.guard';
+import {EvaGuard} from './eva.guard';
+import {VendorGuard} from './vendor.guard';
+import {UserGuard} from './user.guard';
 
 
 const routes: Routes = [
@@ -52,7 +56,8 @@ const routes: Routes = [
 	},
 	{
 		path: 'vendor',
-		component: InternalTestingComponent
+		component: InternalTestingComponent,
+		canActivate: [EvaGuard]
 	},
 	{
 		path: 'history',
@@ -60,7 +65,8 @@ const routes: Routes = [
 	},
 	{
 		path: 'account',
-		component: AccountInfoComponent
+		component: AccountInfoComponent,
+		canActivate: [UserGuard]
 	},
 	{
 		path: 'vendorreg',
@@ -76,7 +82,8 @@ const routes: Routes = [
 	},
 	{
 		path: 'admin',
-		component: AdminDashComponent
+		component: AdminDashComponent,
+		canActivate: [AdminGuard]
 	}
 ];
 

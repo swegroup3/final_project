@@ -9,7 +9,9 @@ import { registerContentQuery } from '@angular/core/src/render3';
   styleUrls: ['./admin-dash.component.css']
 })
 export class AdminDashComponent implements OnInit {
-	data = {}
+	data = {
+		'type': 'vendor'
+	}
 
   	constructor(private _user: UserService, private _router: Router) { }
 
@@ -19,12 +21,19 @@ export class AdminDashComponent implements OnInit {
 		this._user.register(this.data)
 		.subscribe(
 			res => {
-			console.log(this.data)
-			localStorage.setItem('token', res.token);
-			this._router.navigate(['/home']);
+				this.data.type = 'vendor';
+				console.log(this.data);
+				this._user.updateUserAdmin(this.data).subscribe(
+					result => {
+						console.log(this.data)
+					},
+					error => {
+						console.log(error);
+					}
+				);
 			},
 			err => {
-			console.log(err);
+				console.log(err);
 			}
 		);
 	}
