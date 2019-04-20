@@ -1,18 +1,21 @@
-<h2>Administrator Dashboard</h2>
-<br>
-<div class ='col'>
-	<h3>Add Vendor</h3>
-	<form>
-		<!-- TODO: store first or last name as vendor org name?? -->
-		<label for="vendorName">Vendor Username</label><br>
-		<input [(ngModel)]="data.username" type="text" name="vendorName">
-		<br>
-		<label for="vendorPass">Vendor Password</label><br>
-		<input [(ngModel)]="data.password" type="password" name="vendorPass">
-		<br>
-		<label for="vendorEmail">Email</label><br>
-		<input [(ngModel)]="data.email" type="text" name="vendorEmail">
-		<br>
-		<input type="button" class="btn btn-success" value="Add vendor" (click)="registerVendor()">
-	</form>
+<div align="center">
+	<h2>Administrator Dashboard</h2>
+	<br>
+	<div class ='col vendor' >
+		<h3>Add Vendor</h3>
+		<form>
+			<!-- TODO: store first or last name as vendor org name?? -->
+			<label for="vendorName">Vendor Username</label><br>
+			<input [(ngModel)]="data.username" type="text" name="vendorName">
+			<br>
+			<label for="vendorPass">Vendor Password</label><br>
+			<input [(ngModel)]="data.password" type="password" name="vendorPass">
+			<br>
+			<label for="vendorEmail">Email</label><br>
+			<input [(ngModel)]="data.email" type="text" name="vendorEmail">
+			<br>
+			<br>
+			<input type="button" class="btn btn-blue" value="Add vendor" (click)="registerVendor()">
+		</form>
+	</div>
 </div>

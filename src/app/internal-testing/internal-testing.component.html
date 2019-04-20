@@ -1,12 +1,13 @@
 <div class="container">
 	<div class="row">
-		<div class="col">
+		<div class="col" align="center">
 			<!-- input food form -->
 			<br>
 			<h2>Inventory Edit Page</h2>
+			<br>
 
 			<div class ='row'>
-				<div class ='col'>
+				<div class ='col' align="center">
 					<h2>Add Item</h2>
 					<form>
 						<label for="foodItem-name">Item Name</label><br>
@@ -21,13 +22,14 @@
 						<label for="quantity">Quantity</label><br>
 						<input type="number" name="quantity" step="1" [(ngModel)]="data.quantity">
 						<br>
-						<input type="button" class="btn btn-success" value="Add item" (click)="post()">
+						<br>
+						<input type="button" class="btn btn-blue" value="Add item" (click)="post()">
 					</form>
 				 </div>
 
 				<!-- update food information form -->
 				<br>
-				<div class ='col'>
+				<div class ='col' align="center">
 					<h2>Edit Item</h2>
 					<form>
 						<label for="updateName">Item Name</label><br>
@@ -42,7 +44,8 @@
 						<label for="updateQuantity">Quantity</label><br>
 						<input [(ngModel)]="updateData.quantity" type="number" name="updateQuantity" step="1">
 						<br>
-						<input type="button" class="btn btn-success" value="Update" (click)="update()">
+						<br>
+						<input type="button" class="btn btn-blue" value="Update" (click)="update()">
 		      		</form>
 				</div>
 			</div>
@@ -69,8 +72,8 @@
 				      <td>{{food.vendor}}</td>
 				      <td>{{food.price.toFixed(2)}}</td>
 				      <td>{{food.quantity}}</td>
-				      <td><button type="button" class="btn btn-danger" (click)="updateItemInForm(food); setClickedRow(i)">Edit</button></td>
-				      <td><button type="button" class="btn btn-danger" (click)="delete(food)">x</button></td>
+				      <td><button type="button" class="btn btn-yellow" (click)="updateItemInForm(food); setClickedRow(i)">Edit</button></td>
+				      <td><button type="button" class="btn btn-red" (click)="delete(food)">X</button></td>
 				    </tr>
 				  </tbody>
 				</table>

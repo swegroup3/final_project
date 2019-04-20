@@ -1,0 +1,23 @@
+.btn-yellow {
+	background: #fdc35e;
+	color: #ffffff;
+}
+.btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow.active, .open > .dropdown-toggle.btn-yellow {
+	background: #e6b222;
+}
+.btn-yellow:active, .btn-yellow.active {
+	background: #cf9f1b;
+	box-shadow: none;
+}
+
+.btn-blue {
+	background: #044dd5;
+	color: #FFFFFF;
+}
+.btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open > .dropdown-toggle.btn-blue {
+	background: #6ad5db;
+}
+.btn-blue:active, .btn-blue.active {
+	background: #59b3b8;
+	box-shadow: none;
+}

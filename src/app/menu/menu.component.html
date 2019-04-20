@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" [routerLink]="['/home']"><img src="assets/images/smallLogo.png" alt="The Bodega"></a>
+	<a class="navbar-brand" [routerLink]="['/home']"><img src="assets/images/bodega_icon.png" alt="The Bodega"></a>
 	<button #navbarToggler class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -26,10 +26,10 @@
 		</ul>
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item active">
-				<a (click)="collapse()" class="nav-link" *ngIf="!_userService.loggedIn()" [routerLink]="['/login']"><button type="button" class="btn btn-secondary">Log In</button></a>
+				<a (click)="collapse()" class="nav-link" *ngIf="!_userService.loggedIn()" [routerLink]="['/login']"><button type="button" class="btn btn-blue">Log In</button></a>
 			</li>
 			<li class="nav-item active">
-				<a (click)="collapse()" class="nav-link" *ngIf="!_userService.loggedIn()" [routerLink]="['/signup']"><button type="button" class="btn btn-secondary">Sign Up</button></a>
+				<a (click)="collapse()" class="nav-link" *ngIf="!_userService.loggedIn()" [routerLink]="['/signup']"><button type="button" class="btn btn-yellow">Sign Up</button></a>
 			</li>
 			<li class="nav-item active">
 				<a (click)="collapse()" class="nav-link" *ngIf="_userService.loggedIn()" [routerLink]="['/account']"><i class="fas fa-user-circle fa-3x"></i></a>
@@ -38,7 +38,7 @@
 				<a (click)="collapse()" class="nav-link" [routerLink]="['/cart']"><i class="fas fa-shopping-cart fa-3x"></i></a>
 			</li>
 			<li class="nav-item active">
-				 <a (click)="collapse()" class="nav-link" style="cursor:pointer" *ngIf="_userService.loggedIn()" (click)="_userService.logout()"><button type="button" class="btn btn-secondary">Logout</button></a>
+				 <a (click)="collapse()" class="nav-link" style="cursor:pointer" *ngIf="_userService.loggedIn()" (click)="_userService.logout()"><button type="button" class="btn btn-red">Logout</button></a>
 			</li>
 		</ul>
 	</div>
