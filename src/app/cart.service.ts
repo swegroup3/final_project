@@ -15,10 +15,10 @@ export class CartService {
 		private _http: HttpClient,
 		private _util: UtilityService) {}
 	
-	addItemToCart(foodItemName) {
+	addItemToCart(foodItemId) {
 		var data = {
 			username: this._util.getToken().username,
-			foodItemName: foodItemName
+			id: foodItemId
 		};
 		return this._http.post<any>(this._apiCart, data, this._util.getAuthHeader());
 	}
@@ -28,10 +28,10 @@ export class CartService {
 		return this._http.get<any>(this._apiCart + '/' + username, this._util.getAuthHeader());
 	}
 
-	deleteItemFromCart(foodItemName) {
+	deleteItemFromCart(foodItemId) {
 		var data = {
 			username: this._util.getToken().username,
-			foodItemName: foodItemName
+			id: foodItemId
 		};
 		return this._http.put<any>(this._apiCart, data, this._util.getAuthHeader());
 	}

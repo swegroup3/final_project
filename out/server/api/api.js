@@ -192,8 +192,8 @@ router.get('/food', (req, res) => {
 });
 
 // View a specific food item, unrestricted
-router.get('/food/:name', (req, res) => {
-    FoodItem.findOne({name: req.params.name}, (err, item) => {
+router.get('/food/:id', (req, res) => {
+    FoodItem.findOne({_id: req.params.id}, (err, item) => {
         if (err)
             console.log(err);
         else
@@ -214,11 +214,16 @@ router.post('/food/', verifyEVA, (req, res) => {
     });
 });
 
-//Update a food item by name, Employee, Vendor, Admin-only
+//Update a food item by id, Employee, Vendor, Admin-only
 router.put('/food/', verifyEVA, (req, res) => {
-    FoodItem.findOneAndUpdate({name: req.body.name},
-	{
-	$set:{vendor:req.body.vendor, price: req.body.price,quantity: req.body.quantity}
+    FoodItem.findOneAndUpdate({_id: req.body._id},
+    { $set:
+        {
+            name: req.body.name,
+            vendor: req.body.vendor,
+            price: req.body.price,
+            quantity: req.body.quantity
+        }
 	}, (err, doc) =>{
 		if(err){
 			console.log(err);
@@ -228,13 +233,15 @@ router.put('/food/', verifyEVA, (req, res) => {
 	});
 });
 
-//Delete a food item by name, Employee, Vendor, Admin-only
-router.delete('/food/:name', verifyEVA, (req, res) => {
-    FoodItem.findOneAndDelete({name: req.params.name}, (err, item) => {
+//Delete a food item by id, Employee, Vendor, Admin-only
+router.delete('/food/:id', verifyEVA, (req, res) => {
+    FoodItem.findOneAndDelete({_id: req.params.id}, (err, item) => {
         if (err)
             console.log(err);
-        else
+        else {
+            console.log('deleting:', item);
             res.json(item);
+        }
     });
 });
 
@@ -284,7 +291,8 @@ router.delete('/user/:user', verifyEVA, (req, res) => {
 // Add item to cart, create cart if one does not exist for the user
 router.post('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
-    var foodItemName = req.body.foodItemName;
+    var foodItemId = req.body.id;
+    console.log(username, foodItemId);
     
     Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
@@ -297,13 +305,13 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
                 });
             }
 
-            FoodItem.findOne({name: foodItemName}, (err, item) => {
+            FoodItem.findOne({_id: foodItemId}, (err, item) => {
                 if (err)
                     console.log(err);
                 else {
                     var foundIndex = undefined;
                     foundCart.items.forEach((item, index) => {
-                        if (item.name == foodItemName)
+                        if (item._id == foodItemId)
                             foundIndex = index;
                     });
 
@@ -326,8 +334,8 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
 // Delete item from cart
 router.put('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
-    var foodItemName = req.body.foodItemName;
-    console.log('request to remove item from cart:', username, foodItemName);
+    var foodItemId = req.body.id;
+    console.log('request to remove item from cart:', username, foodItemId);
 
     Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
@@ -335,7 +343,7 @@ router.put('/cart/', verifyOwnerBody, (req, res) => {
         else {
             var foundIndex = undefined;
             foundCart.items.forEach((item, index) => {
-                if (item.name == foodItemName)
+                if (item._id == foodItemId)
                     foundIndex = index;
             });
 
@@ -350,7 +358,7 @@ router.put('/cart/', verifyOwnerBody, (req, res) => {
     });
 });
 
-// Get the cart
+// Get the cart (by username)
 router.get('/cart/:name', (req, res) => {
     if (!req.headers.authorization){
         return res.status(401).send('Unauthorized request')
@@ -387,23 +395,24 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
         }
         else {
             if (cart) {
-                // Check if the order is valid
-                itemNames = [];
+                // Used to search database
+                itemIds = [];
+                // Used to check for valid cart
                 newCart = [];
                 cart.items.forEach(item => {
-                    itemNames.push(item.name);
+                    itemIds.push(item._id);
                     newCart.push({
-                        name: item.name,
+                        _id: item._id,
                         quantity: item.quantity
                     });
                 });
 
-                FoodItem.find({'name': {$in: itemNames}}, (err, foundItems) => {
+                FoodItem.find({'_id': {$in: itemIds}}, (err, foundItems) => {
                     if (err) {
                         console.log(err);
                     }
-                    else if (itemNames.length != foundItems.length) {
-                        var message = "Could not find all items in shopping cart."
+                    else if (itemIds.length != foundItems.length) {
+                        var message = "Could not find all items in shopping cart.";
                         console.log(message);
                         res.status(409).send(message);
                     }
@@ -412,7 +421,7 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                         var toDelete = [];
 
                         var compare = function(x, y) {
-                            return x.name.localeCompare(y.name);
+                            return toString(x._id).localeCompare(toString(y._id));
                         }
 
                         newCart.sort(compare);
@@ -430,12 +439,12 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                             }
                             else if (newQuantity == 0) {
                                 toDelete.push({
-                                    name: item.name
+                                    _id: item._id
                                 });
                             }
                             else {
                                 toUpdate.push({
-                                    name: item.name,
+                                    _id: item._id,
                                     newQuantity: newQuantity
                                 });
                             }
@@ -444,7 +453,7 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                         if (!errorFlag) {
                             // Update the items with a non-zero quantity
                             toUpdate.forEach(item => {
-                                FoodItem.findOneAndUpdate({name: item.name}, {
+                                FoodItem.findOneAndUpdate({_id: item._id}, {
                                     $set: {quantity: item.newQuantity}
                                 }, (err, foodItem) => {
                                     if (err)
@@ -457,7 +466,7 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                             });
                             // Delete the items with a zero quantity
                             toDelete.forEach(item => {
-                                FoodItem.findOneAndDelete({name: item.name}, (err, foodItem) => {
+                                FoodItem.findOneAndDelete({_id: item._id}, (err, foodItem) => {
                                     if (err)
                                         console.log(err);
                                     else {
@@ -469,6 +478,7 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
 
                             data = {
                                 cart: cart,
+                                // Random pin generator
                                 pin: Math.floor(Math.random() * 10000)
                             };
                             console.log(data);

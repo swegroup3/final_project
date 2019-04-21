@@ -33,7 +33,7 @@ export class InternalTestingComponent implements OnInit {
 
 	delete(food) {
 		window.location.reload();
-		this._databaseService.deleteFood(food.name).subscribe(console.log, console.log);
+		this._databaseService.deleteFood(food._id).subscribe(console.log, console.log);
 	}
 
 	update() {
