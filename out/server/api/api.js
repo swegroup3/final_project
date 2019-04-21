@@ -285,7 +285,7 @@ router.delete('/user/:user', verifyEVA, (req, res) => {
 router.post('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
     var foodItemName = req.body.foodItemName;
-    
+
     Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
             console.log(err);
@@ -313,7 +313,7 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
                         item.quantity = 1;
                         foundCart.items.push(item);
                     }
-                    
+
                     foundCart.save();
                     res.json(foundCart);
                 }
@@ -440,7 +440,7 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                                 });
                             }
                         });
-                        
+
                         if (!errorFlag) {
                             // Update the items with a non-zero quantity
                             toUpdate.forEach(item => {

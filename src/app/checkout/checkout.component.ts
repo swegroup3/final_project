@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart.service';
+import { Router } from '@angular/router';
+
 
 @Component({
 	selector: 'app-checkout',
@@ -8,8 +10,10 @@ import { CartService } from '../cart.service';
 })
 export class CheckoutComponent implements OnInit {
 	cart = []
+	error = ""
 
-	constructor(private _cartService: CartService) { }
+	constructor(private _cartService: CartService,
+	private _router: Router) { }
 
 	ngOnInit() {
 		this._cartService.getCart().subscribe(res => {
@@ -29,6 +33,21 @@ export class CheckoutComponent implements OnInit {
 	purchase() {
 		this._cartService.purchaseCart().subscribe(res => {
     		localStorage.setItem("pin",res.pin);
-		}, console.log);
+				this._router.navigate(['/confirmation']);
+		},
+		(err) => {console.log(err)
+			this.error = err.error
+			this.showError();
+		},
+		 console.log);
+
+
 	}
+
+	showError(){
+		document.getElementById('submit').style.display = "none";
+		document.getElementById('error').style.display = "block";
+	}
+
+
 }

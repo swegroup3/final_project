@@ -27,4 +27,11 @@
 <button type="button" class="btn btn-yellow" [routerLink]="['/account']">Change Payment Method</button>
 <br><br>
 
-<button type="button" class="btn btn-blue" (click)="purchase()" [routerLink]="['/confirmation']">Submit Order</button>
+<div id="submit">
+  <button type="button" class="btn btn-blue" (click)="purchase()">Submit Order</button>
+</div>
+
+<div id="error" style = "display:none; color:red;" >
+  <strong>Error: {{error}} Shopping Cart has been reset.</strong><br>
+  <button type="button" class="btn btn-blue" [routerLink]="['/inventory']">Return to Cafe Inventory</button>
+ </div>
