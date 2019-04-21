@@ -1,39 +1,3 @@
-.btn-yellow {
-	background: #fdbd47;
-	color: #ffffff;
-}
-.btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow.active, .open > .dropdown-toggle.btn-yellow {
-	background: #deaa4f;
-}
-.btn-yellow:active, .btn-yellow.active {
-	background: #bd8f40;
-	box-shadow: none;
-}
-
-.btn-blue {
-	background: #044dd5;
-	color: #FFFFFF;
-}
-.btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open > .dropdown-toggle.btn-blue {
-	background: #0440b0;
-}
-.btn-blue:active, .btn-blue.active {
-	background: #053285;
-	box-shadow: none;
-}
-
-.btn-red {
-	background: #fd4f39;
-	color: #FFFFFF;
-}
-.btn-red:hover, .btn-red:focus, .btn-red:active, .btn-red.active, .open > .dropdown-toggle.btn-red {
-	background: #cc3d2a;
-}
-.btn-red:active, .btn-red.active {
-	background: #9e2d1e;
-	box-shadow: none;
-}
-
 .login {
   padding-top: 50px;
   padding-bottom: 50px;

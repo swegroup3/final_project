@@ -1,12 +1,12 @@
 .btn-yellow {
-	background: #fdc35e;
+	background: #fdbd47;
 	color: #ffffff;
 }
 .btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow.active, .open > .dropdown-toggle.btn-yellow {
-	background: #e6b222;
+	background: #deaa4f;
 }
 .btn-yellow:active, .btn-yellow.active {
-	background: #cf9f1b;
+	background: #bd8f40;
 	box-shadow: none;
 }
 
@@ -15,9 +15,21 @@
 	color: #FFFFFF;
 }
 .btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open > .dropdown-toggle.btn-blue {
-	background: #6ad5db;
+	background: #0440b0;
 }
 .btn-blue:active, .btn-blue.active {
-	background: #59b3b8;
+	background: #053285;
+	box-shadow: none;
+}
+
+.btn-red {
+	background: #fd4f39;
+	color: #FFFFFF;
+}
+.btn-red:hover, .btn-red:focus, .btn-red:active, .btn-red.active, .open > .dropdown-toggle.btn-red {
+	background: #cc3d2a;
+}
+.btn-red:active, .btn-red.active {
+	background: #9e2d1e;
 	box-shadow: none;
 }
