@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 
 const FoodItem = require('../models/foodItem');
@@ -14,6 +15,14 @@ const Cart = require('../models/cart');
 const secret_key = "X6jDkr1zqn2Du7uUnjT0CA5wem660RYc32M2F9COPEgYY5px2KYy7OuVWtEcg6E"
 
 const db = require('../config/db');
+
+var transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		user: 'bodegadev@gmail.com',
+		pass: 'G7H5xRaMWnm2tNc'
+	}
+});
 
 mongoose.connect(db.uri, err => {
     if (err) {
@@ -156,7 +165,7 @@ router.post('/register', (req, res)=>{
 		if (error) {
 			console.log(error)
 		} else {
-		    let payload = {username: userData.username, type: user.type}
+		    let payload = {username: userData.username, type: user.type, email:user.email}
 		    let token = jwt.sign(payload, secret_key)
 			res.status(200).send({token})
 		}
@@ -178,7 +187,7 @@ router.post('/login', (req, res)=>{
 			if (!user.validPassword(userData.password)){
 				res.status(401).send('Invalid password')
 			} else {
-			    payload = { username: userData.username, type: user.type}
+			    payload = { username: userData.username, type: user.type, email: user.email}
 			    let token = jwt.sign(payload, secret_key)
 				res.status(200).send({token})
 			}
@@ -489,6 +498,8 @@ router.get('/cart/:name', (req, res) => {
 // Purchase the cart, will also delete the cart
 router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
+	let token = req.headers.authorization
+    let payload = jwt.verify(token, secret_key)
     var errorFlag = false;
 
     Cart.findOneAndDelete({username: username}, (err, cart) => {
@@ -576,10 +587,28 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                                     }
                                 });
                             });
-
+							var pinnumber = Math.floor(Math.random() * 10000);
+							if(payload){
+								if(payload.email){
+									var mailOptions = {
+										from: 'bodegadev@gmail.com',
+										to: payload.email,
+										subject: 'Receipt for your Bodega purchase.',
+										text: 'Your purchase pin is: ' + pinnumber
+									};
+									transporter.sendMail(mailOptions, function(error, info){
+										if(error){
+											console.log(error);
+										} else {
+											console.log('Email sent: ' + info.response);
+										}
+									});
+								}
+							}
+							
                             data = {
                                 cart: cart,
-                                pin: Math.floor(Math.random() * 10000)
+                                pin: pinnumber
                             };
                             console.log(data);
                             res.json(data);
