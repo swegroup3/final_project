@@ -14,11 +14,12 @@ import { VendorregistrationComponent } from './vendorregistration/vendorregistra
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
 import { AdminDashComponent } from './admin-dash/admin-dash.component';
+import { EmployeefoodComponent } from './employeefood/employeefood.component';
 import {AdminGuard} from './admin.guard';
 import {EvaGuard} from './eva.guard';
 import {VendorGuard} from './vendor.guard';
 import {UserGuard} from './user.guard';
-
+import {EAGuard} from './ea.guard';
 
 const routes: Routes = [
 	{
@@ -81,10 +82,16 @@ const routes: Routes = [
 		component: OrderconfirmationComponent
 	},
 	{
+		path: 'employeefood',
+		component: EmployeefoodComponent,
+		canActivate: [EAGuard]
+	},
+	{
 		path: 'admin',
 		component: AdminDashComponent,
 		canActivate: [AdminGuard]
 	}
+	
 ];
 
 @NgModule({

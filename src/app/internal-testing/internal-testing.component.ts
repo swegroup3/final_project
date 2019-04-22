@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../database.service';
+import { UserService } from '../user.service';
 
 @Component({
 	selector: 'app-internal-testing',
@@ -7,15 +8,18 @@ import { DatabaseService } from '../database.service';
 	styleUrls: ['./internal-testing.component.css']
 })
 export class InternalTestingComponent implements OnInit {
-	data = {};
+	data = {
+		vendor: ""
+	};
 	updateData = {};
 	foods = [];
 	selectedRow = -1;
 
-	constructor(private _databaseService: DatabaseService) { }
+	constructor(private _databaseService: DatabaseService, private _user: UserService) { }
 
 	ngOnInit() {
-		this._databaseService.getAllFood()
+		this.data.vendor = this._user.getName();
+		this._databaseService.getVendorFood(this._user.getName())
 				.subscribe(
 					res => this.foods = res,
 					err => console.log(err)
@@ -24,7 +28,7 @@ export class InternalTestingComponent implements OnInit {
 
 	post() {
 		window.location.reload();
-		this._databaseService.createFood(this.data).subscribe(console.log, console.log);
+		this._databaseService.createFoodVendor(this.data).subscribe(console.log, console.log);
 	}
 
 	updateItemInForm(food) {
@@ -33,12 +37,12 @@ export class InternalTestingComponent implements OnInit {
 
 	delete(food) {
 		window.location.reload();
-		this._databaseService.deleteFood(food.name).subscribe(console.log, console.log);
+		this._databaseService.deleteFoodVendor(food.name).subscribe(console.log, console.log);
 	}
 
 	update() {
 		window.location.reload();
-		this._databaseService.updateFood(this.updateData).subscribe(console.log, console.log);
+		this._databaseService.updateFoodVendor(this.updateData).subscribe(console.log, console.log);
 	}
 
 	setClickedRow(index){

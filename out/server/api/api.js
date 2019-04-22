@@ -65,6 +65,25 @@ function verifyEVA(req, res, next) {
     next()
 }
 
+//To be called for Admin and Employee-only functions
+function verifyEA(req, res, next) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+	if (payload.type != "admin" && payload.type != "employee"){
+		return res.status(401).send('Unauthorized request')
+	}
+    next()
+}
+
 //To be called for routes restricted to their owner
 function verifyOwnerBody(req, res, next) {
     if (!req.headers.authorization){
@@ -79,6 +98,46 @@ function verifyOwnerBody(req, res, next) {
         return res.status(401).send('Unauthorized request')
     }
 	if (payload.username != req.body.username){
+		return res.status(401).send('Unauthorized request')
+	}
+    next()
+}
+
+//To be called for create routes restricted to their (vendor) owner
+function verifyVendorBody(req, res, next) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+	if (payload.username != req.body.vendor){
+		return res.status(401).send('Unauthorized request')
+	}
+	if (payload.type != "vendor"){
+		return res.status(401).send('Unauthorized request')
+	}
+    next()
+}
+//To verify caller is a vendor
+function verifyVendor(req, res, next) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+	if (payload.type != "vendor"){
 		return res.status(401).send('Unauthorized request')
 	}
     next()
@@ -191,6 +250,16 @@ router.get('/food', (req, res) => {
     });
 });
 
+// View all the food of a particular vendor (for convenience)
+router.get('/vendor/food/:vendor', (req, res) => {
+    FoodItem.find({vendor: req.params.vendor}).exec((err, list) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(list);
+    });
+});
+
 // View a specific food item, unrestricted
 router.get('/food/:name', (req, res) => {
     FoodItem.findOne({name: req.params.name}, (err, item) => {
@@ -201,8 +270,8 @@ router.get('/food/:name', (req, res) => {
     });
 });
 
-//Add a new food item to the menu
-router.post('/food/', verifyEVA, (req, res) => {
+//Add a new food item to the menu, Employee and Admin Only
+router.post('/food/', verifyEA, (req, res) => {
     var foodItem = new FoodItem(req.body);
     foodItem.save(function(err) {
         if (err) {
@@ -214,8 +283,21 @@ router.post('/food/', verifyEVA, (req, res) => {
     });
 });
 
-//Update a food item by name, Employee, Vendor, Admin-only
-router.put('/food/', verifyEVA, (req, res) => {
+//Add a new food item to the menu, owner only
+router.post('/vendor/food/', verifyVendorBody, (req, res) => {
+    var foodItem = new FoodItem(req.body);
+    foodItem.save(function(err) {
+        if (err) {
+            console.log(err);
+            res.status(400).send(err);
+        }
+        else
+            res.json(foodItem);
+    });
+});
+
+//Update a food item by name, Employee, Admin-only
+router.put('/food/', verifyEA, (req, res) => {
     FoodItem.findOneAndUpdate({name: req.body.name},
 	{
 	$set:{vendor:req.body.vendor, price: req.body.price,quantity: req.body.quantity}
@@ -228,8 +310,25 @@ router.put('/food/', verifyEVA, (req, res) => {
 	});
 });
 
-//Delete a food item by name, Employee, Vendor, Admin-only
-router.delete('/food/:name', verifyEVA, (req, res) => {
+
+//Update a food item by name, owner-only
+router.put('/vendor/food/', verifyVendor, (req, res) => {
+	let token = req.headers.authorization
+    let payload = jwt.verify(token, secret_key)
+    FoodItem.findOneAndUpdate({name: req.body.name, payload: token.username},
+	{
+	$set:{price: req.body.price,quantity: req.body.quantity}
+	}, (err, doc) =>{
+		if(err){
+			console.log(err);
+			res.status(400).send(err);
+		}
+		else res.json(doc);
+	});
+});
+
+//Delete a food item by name, Employee, Admin-only
+router.delete('/food/:name', verifyEA, (req, res) => {
     FoodItem.findOneAndDelete({name: req.params.name}, (err, item) => {
         if (err)
             console.log(err);
@@ -237,9 +336,20 @@ router.delete('/food/:name', verifyEVA, (req, res) => {
             res.json(item);
     });
 });
+//Delete a food item by name, owner only
+router.delete('/vendor/food/:name', verifyVendor, (req, res) => {
+	let token = req.headers.authorization
+    let payload = jwt.verify(token, secret_key)
+    FoodItem.findOneAndDelete({name: req.params.name, vendor: payload.username}, (err, item) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(item);
+    });
+});
 
-//Delete all food items, clearing the menu, Employee, Vendor, Admin-only
-router.delete('/food/', verifyEVA, (req, res) => {
+//Delete all food items, clearing the menu, Employee, Admin-only
+router.delete('/food/', verifyEA, (req, res) => {
     FoodItem.deleteMany({}, (err) => {
         if (err)
             console.log(err);

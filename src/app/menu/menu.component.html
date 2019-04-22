@@ -18,7 +18,10 @@
 				<a (click)="collapse()" class="nav-link" [routerLink]="['/inventory']">Order Now</a>
 			</li>
 			<li class="nav-item active">
-				<a (click)="collapse()" class="nav-link" *ngIf="_userService.isEVA()" [routerLink]="['/vendor']">Vendor</a>
+				<a (click)="collapse()" class="nav-link" *ngIf="_userService.isVendor()" [routerLink]="['/vendor']">Vendor</a>
+			</li>
+			<li class="nav-item active">
+				<a (click)="collapse()" class="nav-link" *ngIf="_userService.isEA()" [routerLink]="['/employeefood']">Edit Inventory</a>
 			</li>
 			<li class="nav-item active">
 				<a (click)="collapse()" class="nav-link" *ngIf="_userService.isAdmin()" [routerLink]="['/admin']">Admin</a>

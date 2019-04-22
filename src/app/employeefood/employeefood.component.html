@@ -16,6 +16,11 @@
 						</section>
 						<br>
 						<section align='left'>
+							<label for="foodItem-vendor">Vendor Name</label><br>
+							<input [(ngModel)]="data.vendor" type="text" name="foodItem-vendor">
+						</section>
+						<br>
+						<section align='left'>
 							<label for="price">Price</label><br>
 							<input [(ngModel)]="data.price" type="number" name="price" step="0.01">
 						</section>
@@ -38,6 +43,11 @@
 						<section align='left'>
 							<label for="updateName">Item Name</label><br>
 							<input [(ngModel)]="updateData.name" type="text" name="updateName">
+						</section>
+						<br>
+						<section align='left'>
+							<label for="updateVendor">Vendor Name</label><br>
+							<input [(ngModel)]="updateData.vendor" type="text" name="updateVendor">
 						</section>
 						<br>
 						<section align='left'>
