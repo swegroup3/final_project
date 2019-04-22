@@ -53,6 +53,10 @@ export class UserService {
 		const type = this.getType()
 		return type === "employee" || type === "vendor" || type === "admin"
 	}
+	isEA(){
+		const type = this.getType()
+		return type === "employee" || type === "admin"
+	}
 
 	loggedIn(){
 		// Generate a guest token if no token exists
@@ -94,6 +98,10 @@ export class UserService {
 		console.log(this._apiUser + '/' + username)
 		console.log(this._util.getAuthHeader())
 		return this._http.get<any>(this._apiUser + '/' + username, this._util.getAuthHeader())
+	}
+	getName() {
+		var token = this._util.getToken();
+		return token.username
 	}
 
 	// As admin, get a list of all users

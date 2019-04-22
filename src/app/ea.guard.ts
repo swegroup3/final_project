@@ -6,16 +6,16 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class EvaGuard implements CanActivate {
+export class EAGuard implements CanActivate {
 
 	constructor(private _user: UserService, private _router: Router) { }
 
   canActivate(): boolean{
-  	if (this._user.isEVA()){
+  	if (this._user.isEA()){
       return true;
     } else {
       this._router.navigate(['/login']);
-      alert('Employee, Vendor, and Administrator only');
+      alert('Employee privileges required');
       return false;
     }
   }

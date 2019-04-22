@@ -8,6 +8,7 @@ import { UtilityService } from './utility.service'
 export class DatabaseService {
 	private _api = '/api';
 	private _apiFood = this._api + '/food';
+	private _apiVendorFood = this._api + '/vendor/food';
 
 	constructor(
 		private _http: HttpClient,
@@ -16,24 +17,37 @@ export class DatabaseService {
 	getAllFood() {
 		return this._http.get<any>(this._apiFood)
 	}
-
+	getVendorFood(name) {
+		return this._http.get<any>(this._apiVendorFood + '/' + name)
+	}
 	getFood(name) {
 		return this._http.get<any>(this._apiFood)
 	}
 
-	createFood(food) {
+	createFoodEA(food) {
 		return this._http.post<any>(this._apiFood, food, this._util.getAuthHeader())
 	}
 
-	updateFood(food) {
+	updateFoodEA(food) {
 		return this._http.put<any>(this._apiFood, food, this._util.getAuthHeader())
 	}
 
-	deleteFood(name) {
+	deleteFoodEA(name) {
 		return this._http.delete<any>(
 			this._apiFood + '/' + name, this._util.getAuthHeader())
 	}
+	createFoodVendor(food) {
+		return this._http.post<any>(this._apiVendorFood, food, this._util.getAuthHeader())
+	}
 
+	updateFoodVendor(food) {
+		return this._http.put<any>(this._apiVendorFood, food, this._util.getAuthHeader())
+	}
+
+	deleteFoodVendor(name) {
+		return this._http.delete<any>(
+			this._apiVendorFood + '/' + name, this._util.getAuthHeader())
+	}
 	deleteAllFood() {
 		return this._http.delete<any>(this._apiFood, this._util.getAuthHeader())
 	}
