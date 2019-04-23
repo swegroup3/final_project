@@ -118,6 +118,6 @@ export class UserService {
 	}
 
 	deleteUser(username) {
-		this._http.delete<any>(this._apiAdmin + '/' + username, this._util.getAuthHeader())
+		return this._http.delete<any>(this._apiUser + '/' + username, this._util.getAuthHeader())
 	}
 }

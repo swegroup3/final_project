@@ -55,42 +55,24 @@
 		</div>
 
 		</div>
-		<!-- edit user form! -->
-		<h3>Edit User</h3>
-		<form>
-			<section align='left'>
-				<label for="updateName">Username</label><br>
-				<input [(ngModel)]="updateData.username" type="text" name="updateName">
-			</section>
-			<br>
-			<section align='left'>
-				<label for="updateEmail">Email</label><br>
-				<input [(ngModel)]="updateData.email" type="text" name="updateEmail">
-			</section>
-			<br>
-			<section align='left'>
-				<label for="updateQuantity">Type</label><br>
-				<input [(ngModel)]="updateData.type" type="text" name="updateType">
-			</section>
-			<br>
-			<input type="button" class="btn btn-blue" value="Update" (click)="update()">
-  		</form>
 
 		<!-- table of users! -->
-		<div class='col-5'>
+		<div class='col'>
 			<table class="table table-striped padding-md" id='userTable'>
 			  <thead>
 			    <tr>
 			      <th>Username</th>
 			      <th>Email</th>
+			      <th>Type</th>
+			      <th>Remove</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			  	<tr *ngFor="let user of users; let i = index" [class.active]="i == selectedRow">
+			  	<tr *ngFor="let user of users">
 			      <td>{{user.username}}</td>
 			      <td>{{user.email}}</td>
-			      <td><button type="button" class="btn btn-yellow" (click)="updateUserInForm(user); setClickedRow(i)">Edit</button></td>
-			      <!-- TODO: button to delete users? -->
+			      <td>{{user.type}}
+			      <td><button type="button" class="btn btn-danger" (click)="delete(user.username)">x</button></td>
 			    </tr>
 			  </tbody>
 			</table>

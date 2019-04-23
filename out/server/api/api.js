@@ -391,7 +391,7 @@ router.put('/admin/user/', verifyAdmin, (req, res) => {
 });
 
 //Delete a user by name, Admin-only
-router.delete('/user/:user', verifyEVA, (req, res) => {
+router.delete('/user/:username', verifyEVA, (req, res) => {
     User.findOneAndDelete({username: req.params.username}, (err, item) => {
         if (err)
             console.log(err);

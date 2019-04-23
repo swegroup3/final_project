@@ -26,25 +26,10 @@ export class AdminDashComponent implements OnInit {
 					);
   	}
 
-  	setClickedRow(index){
-		this.selectedRow = index;
-		console.log(index);
-	}
-
-  	updateUserInForm(user) {
-		const returnedTarget = Object.assign(this.updateData, user);
-	}
-
-	update() {
-		window.location.reload();
-		this._user.updateUserAdmin(this.updateData).subscribe(
-			res => {
-				console.log(res);
-			},
-			err => {
-				console.log(err);
-			});
-	}
+  	delete(username) {
+  		window.location.reload();
+  		this._user.deleteUser(username).subscribe(console.log, console.log);
+  	}
 
   	chooseAccountType(accountType) {
   		if (accountType === 'vendor') {
@@ -58,10 +43,10 @@ export class AdminDashComponent implements OnInit {
   	}
 
   	registerVendor() {
-  		window.location.reload();
 		this._user.register(this.data)
 		.subscribe(
 			res => {
+				window.location.reload();
 				this.data.type = 'vendor';
 				console.log(this.data);
 				this._user.updateUserAdmin(this.data).subscribe(
@@ -80,10 +65,10 @@ export class AdminDashComponent implements OnInit {
 	}
 
 	registerEmployee() {
-		window.location.reload();
 		this._user.register(this.data)
 		.subscribe(
 			res => {
+				window.location.reload();
 				this.data.type = 'employee';
 				console.log(this.data);
 				this._user.updateUserAdmin(this.data).subscribe(
