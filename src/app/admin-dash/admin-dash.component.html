@@ -35,17 +35,23 @@
 		<div id='employeeDiv'>
 			<h3>Add Employee</h3>
 			<form>
-				<label for="vendorName">Vendor Username</label><br>
-				<input [(ngModel)]="data.username" type="text" name="vendorName">
+				<label for="empfirstName">First Name</label><br>
+				<input [(ngModel)]="data.firstname" type="text" name="empfirstName">
 				<br>
-				<label for="vendorPass">Vendor Password</label><br>
-				<input [(ngModel)]="data.password" type="password" name="vendorPass">
+				<label for="emplastName">Last Name</label><br>
+				<input [(ngModel)]="data.firstname" type="text" name="emplastName">
 				<br>
-				<label for="vendorEmail">Email</label><br>
-				<input [(ngModel)]="data.email" type="text" name="vendorEmail">
+				<label for="employeeName">Employee Username</label><br>
+				<input [(ngModel)]="data.username" type="text" name="employeeName">
+				<br>
+				<label for="employeePass">Password</label><br>
+				<input [(ngModel)]="data.password" type="password" name="employeePass">
+				<br>
+				<label for="employeeEmail">Email</label><br>
+				<input [(ngModel)]="data.email" type="text" name="employeeEmail">
 				<br>
 				<br>
-				<input type="button" class="btn btn-blue" value="Add vendor" (click)="registerVendor()">
+				<input type="button" class="btn btn-blue" value="Add employee" (click)="registerVendor()">
 			</form>
 		</div>
 
@@ -54,19 +60,21 @@
 			<form>
 				<label for="firstName">First Name</label><br>
 				<input [(ngModel)]="data.firstname" type="text" name="firstName">
+				<br>
 				<label for="lastName">Last Name</label><br>
-				<input [(ngModel)]="data.firstname" type="text" name="firstName">
+				<input [(ngModel)]="data.firstname" type="text" name="lastName">
+				<br>
 				<label for="userName">Username</label><br>
-				<input [(ngModel)]="data.username" type="text" name="vendorName">
+				<input [(ngModel)]="data.username" type="text" name="userName">
 				<br>
-				<label for="vendorPass">Password</label><br>
-				<input [(ngModel)]="data.password" type="password" name="vendorPass">
+				<label for="userPass">Password</label><br>
+				<input [(ngModel)]="data.password" type="password" name="userPass">
 				<br>
-				<label for="vendorEmail">Email</label><br>
-				<input [(ngModel)]="data.email" type="text" name="vendorEmail">
+				<label for="userEmail">Email</label><br>
+				<input [(ngModel)]="data.email" type="text" name="userEmail">
 				<br>
 				<br>
-				<input type="button" class="btn btn-blue" value="Add vendor" (click)="registerVendor()">
+				<input type="button" class="btn btn-blue" value="Add user" (click)="registerVendor()">
 			</form>
 		</div>
 

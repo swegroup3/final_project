@@ -25,17 +25,17 @@ export class AdminDashComponent implements OnInit {
   	}
 
   	chooseAccountType(accountType) {
-  		if (accountType == 'vendor') {
+  		if (accountType === 'vendor') {
   			document.getElementById('employeeDiv').style.display = "none";
   			document.getElementById('userDiv').style.display = "none";
   			document.getElementById('vendorDiv').style.display = "block";
   		}
-  		else if (accountType == 'employee') {
-  			document.getElementById('UserDiv').style.display = "none";
+  		else if (accountType === 'employee') {
+  			document.getElementById('userDiv').style.display = "none";
   			document.getElementById('vendorDiv').style.display = "none";
   			document.getElementById('employeeDiv').style.display = "block";
   		}
-  		else if (accountType == 'user') {
+  		else if (accountType === 'user') {
   			document.getElementById('employeeDiv').style.display = "none";
   			document.getElementById('vendorDiv').style.display = "none";
   			document.getElementById('userDiv').style.display = "block";
