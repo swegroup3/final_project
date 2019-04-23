@@ -605,11 +605,25 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                             pinnumber = new Array(1 + 4 - pinnumber.length).join('0') + pinnumber;
 							if(payload){
 								if(payload.email){
+                                    var cartInfo = '';
+                                    var subtotal = 0;
+                                    cart.items.forEach((item) => {
+                                        cartInfo += item.quantity.toString() + 'x ' +
+                                                    item.name + ': ' +
+                                                    '$' + item.price.toFixed(2) + '\n';
+                                        subtotal += item.quantity * item.price;
+                                    });
+                                    cartInfo += 'SUBTOTAL: $' + subtotal.toFixed(2) + '\n\n';
+                                    var emailBody = 'Order received!\n\n' +
+                                                    cartInfo +
+                                                    'PIN: ' + pinnumber + '\n\n' +
+                                                    'Thank you for using the Bodega\'s community lunchbox. Please pick up your food at your leisure.';
+
 									var mailOptions = {
 										from: 'bodegadev@gmail.com',
 										to: payload.email,
 										subject: 'Receipt for your Bodega purchase.',
-										text: 'Your purchase pin is: ' + pinnumber
+										text: emailBody
 									};
 									transporter.sendMail(mailOptions, function(error, info){
 										if(error){
