@@ -33,7 +33,7 @@ export class EmployeefoodComponent implements OnInit {
 
 	delete(food) {
 		window.location.reload();
-		this._databaseService.deleteFoodEA(food.name).subscribe(console.log, console.log);
+		this._databaseService.deleteFoodEA(food._id).subscribe(console.log, console.log);
 	}
 
 	update() {

@@ -269,9 +269,9 @@ router.get('/vendor/food/:vendor', (req, res) => {
     });
 });
 
-// View a specific food item, unrestricted
-router.get('/food/:name', (req, res) => {
-    FoodItem.findOne({name: req.params.name}, (err, item) => {
+// View a specific food item by id, unrestricted
+router.get('/food/:_id', (req, res) => {
+    FoodItem.findOne({_id: req.params._id}, (err, item) => {
         if (err)
             console.log(err);
         else
@@ -305,11 +305,16 @@ router.post('/vendor/food/', verifyVendorBody, (req, res) => {
     });
 });
 
-//Update a food item by name, Employee, Admin-only
+//Update a food item by id, Employee, Admin-only
 router.put('/food/', verifyEA, (req, res) => {
-    FoodItem.findOneAndUpdate({name: req.body.name},
+    FoodItem.findOneAndUpdate({_id: req.body._id},
 	{
-	$set:{vendor:req.body.vendor, price: req.body.price,quantity: req.body.quantity}
+        $set: {
+            name: req.body.name,
+            vendor: req.body.vendor,
+            price: req.body.price,
+            quantity: req.body.quantity
+        }
 	}, (err, doc) =>{
 		if(err){
 			console.log(err);
@@ -320,13 +325,17 @@ router.put('/food/', verifyEA, (req, res) => {
 });
 
 
-//Update a food item by name, owner-only
+//Update a food item by id, owner-only
 router.put('/vendor/food/', verifyVendor, (req, res) => {
 	let token = req.headers.authorization
     let payload = jwt.verify(token, secret_key)
-    FoodItem.findOneAndUpdate({name: req.body.name, payload: token.username},
+    FoodItem.findOneAndUpdate({_id: req.body._id, payload: token.username},
 	{
-	$set:{price: req.body.price,quantity: req.body.quantity}
+        $set:{
+            name: req.body.name,
+            price: req.body.price,
+            quantity: req.body.quantity
+        }
 	}, (err, doc) =>{
 		if(err){
 			console.log(err);
@@ -336,20 +345,20 @@ router.put('/vendor/food/', verifyVendor, (req, res) => {
 	});
 });
 
-//Delete a food item by name, Employee, Admin-only
-router.delete('/food/:name', verifyEA, (req, res) => {
-    FoodItem.findOneAndDelete({name: req.params.name}, (err, item) => {
+//Delete a food item by id, Employee, Admin-only
+router.delete('/food/:_id', verifyEA, (req, res) => {
+    FoodItem.findOneAndDelete({_id: req.params._id}, (err, item) => {
         if (err)
             console.log(err);
         else
             res.json(item);
     });
 });
-//Delete a food item by name, owner only
-router.delete('/vendor/food/:name', verifyVendor, (req, res) => {
+//Delete a food item by id, owner only
+router.delete('/vendor/food/:_id', verifyVendor, (req, res) => {
 	let token = req.headers.authorization
     let payload = jwt.verify(token, secret_key)
-    FoodItem.findOneAndDelete({name: req.params.name, vendor: payload.username}, (err, item) => {
+    FoodItem.findOneAndDelete({_id: req.params._id, vendor: payload.username}, (err, item) => {
         if (err)
             console.log(err);
         else
@@ -403,7 +412,7 @@ router.delete('/user/:user', verifyEVA, (req, res) => {
 // Add item to cart, create cart if one does not exist for the user
 router.post('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
-    var foodItemName = req.body.foodItemName;
+    var foodItemId = req.body._id;
 
     Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
@@ -416,13 +425,13 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
                 });
             }
 
-            FoodItem.findOne({name: foodItemName}, (err, item) => {
+            FoodItem.findOne({_id: foodItemId}, (err, item) => {
                 if (err)
                     console.log(err);
                 else {
                     var foundIndex = undefined;
                     foundCart.items.forEach((item, index) => {
-                        if (item.name == foodItemName)
+                        if (item._id == foodItemId)
                             foundIndex = index;
                     });
 
@@ -445,8 +454,8 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
 // Delete item from cart
 router.put('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
-    var foodItemName = req.body.foodItemName;
-    console.log('request to remove item from cart:', username, foodItemName);
+    var foodItemId = req.body._id;
+    console.log('request to remove item from cart:', username, foodItemId);
 
     Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
@@ -454,7 +463,7 @@ router.put('/cart/', verifyOwnerBody, (req, res) => {
         else {
             var foundIndex = undefined;
             foundCart.items.forEach((item, index) => {
-                if (item.name == foodItemName)
+                if (item._id == foodItemId)
                     foundIndex = index;
             });
 
@@ -509,21 +518,23 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
         else {
             if (cart) {
                 // Check if the order is valid
-                itemNames = [];
+                itemIds = [];
                 newCart = [];
                 cart.items.forEach(item => {
-                    itemNames.push(item.name);
+                    itemIds.push(item._id);
                     newCart.push({
-                        name: item.name,
+                        id_: item._id,
                         quantity: item.quantity
                     });
                 });
 
-                FoodItem.find({'name': {$in: itemNames}}, (err, foundItems) => {
+                FoodItem.find({'_id': {$in: itemIds}}, (err, foundItems) => {
                     if (err) {
                         console.log(err);
                     }
-                    else if (itemNames.length != foundItems.length) {
+                    // If the list of requested ids has the same length as the found items,
+                    // then we can be sure each id was found (ids have to be unique)
+                    else if (itemIds.length != foundItems.length) {
                         var message = "Could not find all items in shopping cart."
                         console.log(message);
                         res.status(409).send(message);
@@ -532,12 +543,14 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                         var toUpdate = [];
                         var toDelete = [];
 
-                        var compare = function(x, y) {
-                            return x.name.localeCompare(y.name);
+                        var orderById = function(x, y) {
+                            return toString(x._id).localeCompare(toString(y._id));
                         }
 
-                        newCart.sort(compare);
-                        foundItems.sort(compare);
+                        // Sorting the ids ensures that the indices in both newCart and foundItems
+                        // refers to the same item
+                        newCart.sort(orderById);
+                        foundItems.sort(orderById);
 
                         foundItems.forEach((foundItem, index) => {
                             var item = newCart[index];
@@ -551,12 +564,12 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                             }
                             else if (newQuantity == 0) {
                                 toDelete.push({
-                                    name: item.name
+                                    _id: item._id
                                 });
                             }
                             else {
                                 toUpdate.push({
-                                    name: item.name,
+                                    _id: item._id,
                                     newQuantity: newQuantity
                                 });
                             }
@@ -565,7 +578,7 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                         if (!errorFlag) {
                             // Update the items with a non-zero quantity
                             toUpdate.forEach(item => {
-                                FoodItem.findOneAndUpdate({name: item.name}, {
+                                FoodItem.findOneAndUpdate({id: item._id}, {
                                     $set: {quantity: item.newQuantity}
                                 }, (err, foodItem) => {
                                     if (err)
@@ -578,7 +591,7 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                             });
                             // Delete the items with a zero quantity
                             toDelete.forEach(item => {
-                                FoodItem.findOneAndDelete({name: item.name}, (err, foodItem) => {
+                                FoodItem.findOneAndDelete({_id: item._id}, (err, foodItem) => {
                                     if (err)
                                         console.log(err);
                                     else {
@@ -587,7 +600,10 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                                     }
                                 });
                             });
-							var pinnumber = Math.floor(Math.random() * 10000);
+                            var pinnumber = Math.floor(Math.random() * 10000);
+                            pinnumber = pinnumber.toString();
+                            // Pad the pin with 0s up to a length of 4
+                            pinnumber = new Array(1 + 4 - pinnumber.length).join('0') + pinnumber;
 							if(payload){
 								if(payload.email){
 									var mailOptions = {
