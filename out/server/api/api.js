@@ -517,13 +517,12 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
         }
         else {
             if (cart) {
-                // Check if the order is valid
                 itemIds = [];
                 newCart = [];
                 cart.items.forEach(item => {
                     itemIds.push(item._id);
                     newCart.push({
-                        id_: item._id,
+                        _id: item._id,
                         quantity: item.quantity
                     });
                 });
@@ -578,7 +577,7 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                         if (!errorFlag) {
                             // Update the items with a non-zero quantity
                             toUpdate.forEach(item => {
-                                FoodItem.findOneAndUpdate({id: item._id}, {
+                                FoodItem.findOneAndUpdate({_id: item._id}, {
                                     $set: {quantity: item.newQuantity}
                                 }, (err, foodItem) => {
                                     if (err)
