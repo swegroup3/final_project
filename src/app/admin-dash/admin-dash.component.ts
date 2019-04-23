@@ -10,8 +10,9 @@ import { registerContentQuery } from '@angular/core/src/render3';
 })
 export class AdminDashComponent implements OnInit {
 	data = {
-		'type': 'vendor'
-	}
+		'type': ''
+	};
+	updateData = {};
 	users = [];
 
   	constructor(private _user: UserService, private _router: Router) { }
@@ -24,25 +25,28 @@ export class AdminDashComponent implements OnInit {
 					);
   	}
 
+  	updateUserInForm(user) {
+		const returnedTarget = Object.assign(this.updateData, user);
+	}
+
+	update() {
+		window.location.reload();
+		this._user.updateUserAdmin(this.updateData).subscribe(console.log, console.log);
+	}
+
   	chooseAccountType(accountType) {
   		if (accountType === 'vendor') {
   			document.getElementById('employeeDiv').style.display = "none";
-  			document.getElementById('userDiv').style.display = "none";
   			document.getElementById('vendorDiv').style.display = "block";
   		}
   		else if (accountType === 'employee') {
-  			document.getElementById('userDiv').style.display = "none";
   			document.getElementById('vendorDiv').style.display = "none";
   			document.getElementById('employeeDiv').style.display = "block";
-  		}
-  		else if (accountType === 'user') {
-  			document.getElementById('employeeDiv').style.display = "none";
-  			document.getElementById('vendorDiv').style.display = "none";
-  			document.getElementById('userDiv').style.display = "block";
   		}
   	}
 
   	registerVendor() {
+  		window.location.reload();
 		this._user.register(this.data)
 		.subscribe(
 			res => {
@@ -62,4 +66,27 @@ export class AdminDashComponent implements OnInit {
 			}
 		);
 	}
+
+	registerEmployee() {
+		window.location.reload();
+		this._user.register(this.data)
+		.subscribe(
+			res => {
+				this.data.type = 'employee';
+				console.log(this.data);
+				this._user.updateUserAdmin(this.data).subscribe(
+					result => {
+						console.log(this.data)
+					},
+					error => {
+						console.log(error);
+					}
+				);
+			},
+			err => {
+				console.log(err);
+			}
+		);
+	}
+
 }

@@ -10,7 +10,6 @@
 		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 		    <button class="btn btn-link" (click)="chooseAccountType('vendor')" type="button">Vendor</button>
 		    <button class="btn btn-link" (click)="chooseAccountType('employee')" type="button">Employee</button>
-		    <button class="btn btn-link" (click)="chooseAccountType('user')" type="button">User</button>
 		  </div>
 		</div>
 		<!-- div forms! -->
@@ -39,7 +38,7 @@
 				<input [(ngModel)]="data.firstname" type="text" name="empfirstName">
 				<br>
 				<label for="emplastName">Last Name</label><br>
-				<input [(ngModel)]="data.firstname" type="text" name="emplastName">
+				<input [(ngModel)]="data.lastname" type="text" name="emplastName">
 				<br>
 				<label for="employeeName">Employee Username</label><br>
 				<input [(ngModel)]="data.username" type="text" name="employeeName">
@@ -51,36 +50,36 @@
 				<input [(ngModel)]="data.email" type="text" name="employeeEmail">
 				<br>
 				<br>
-				<input type="button" class="btn btn-blue" value="Add employee" (click)="registerVendor()">
-			</form>
-		</div>
-
-		<div id='userDiv'>
-			<h3>Add User</h3>
-			<form>
-				<label for="firstName">First Name</label><br>
-				<input [(ngModel)]="data.firstname" type="text" name="firstName">
-				<br>
-				<label for="lastName">Last Name</label><br>
-				<input [(ngModel)]="data.firstname" type="text" name="lastName">
-				<br>
-				<label for="userName">Username</label><br>
-				<input [(ngModel)]="data.username" type="text" name="userName">
-				<br>
-				<label for="userPass">Password</label><br>
-				<input [(ngModel)]="data.password" type="password" name="userPass">
-				<br>
-				<label for="userEmail">Email</label><br>
-				<input [(ngModel)]="data.email" type="text" name="userEmail">
-				<br>
-				<br>
-				<input type="button" class="btn btn-blue" value="Add user" (click)="registerVendor()">
+				<input type="button" class="btn btn-blue" value="Add employee" (click)="registerEmployee()">
 			</form>
 		</div>
 
 		</div>
-
+		<!-- edit user form! -->
 		<div class='col'>
+			<h3>Edit User</h3>
+			<form>
+				<section align='left'>
+					<label for="updateName">Username</label><br>
+					<input [(ngModel)]="updateData.username" type="text" name="updateName">
+				</section>
+				<br>
+				<section align='left'>
+					<label for="updateEmail">Email</label><br>
+					<input [(ngModel)]="updateData.email" type="text" name="updateEmail">
+				</section>
+				<br>
+				<section align='left'>
+					<label for="updateQuantity">Type</label><br>
+					<input [(ngModel)]="updateData.type" type="text" name="updateType">
+				</section>
+				<br>
+				<input type="button" class="btn btn-blue" value="Update" (click)="update()">
+      		</form>
+		</div>
+
+		<!-- table of users! -->
+		<div class='col-5'>
 			<table class="table table-striped padding-md" id='userTable'>
 			  <thead>
 			    <tr>
@@ -92,7 +91,7 @@
 			  	<tr *ngFor="let user of users">
 			      <td>{{user.username}}</td>
 			      <td>{{user.email}}</td>
-			      <td><button type="button" class="btn btn-yellow">Edit</button></td>
+			      <td><button type="button" class="btn btn-yellow" (click)="updateUserInForm(user)">Edit</button></td>
 			    </tr>
 			  </tbody>
 			</table>
