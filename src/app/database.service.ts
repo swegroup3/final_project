@@ -32,9 +32,9 @@ export class DatabaseService {
 		return this._http.put<any>(this._apiFood, food, this._util.getAuthHeader())
 	}
 
-	deleteFoodEA(name) {
+	deleteFoodEA(_id) {
 		return this._http.delete<any>(
-			this._apiFood + '/' + name, this._util.getAuthHeader())
+			this._apiFood + '/' + _id, this._util.getAuthHeader())
 	}
 	createFoodVendor(food) {
 		return this._http.post<any>(this._apiVendorFood, food, this._util.getAuthHeader())
@@ -44,9 +44,9 @@ export class DatabaseService {
 		return this._http.put<any>(this._apiVendorFood, food, this._util.getAuthHeader())
 	}
 
-	deleteFoodVendor(name) {
+	deleteFoodVendor(_id) {
 		return this._http.delete<any>(
-			this._apiVendorFood + '/' + name, this._util.getAuthHeader())
+			this._apiVendorFood + '/' + _id, this._util.getAuthHeader())
 	}
 	deleteAllFood() {
 		return this._http.delete<any>(this._apiFood, this._util.getAuthHeader())

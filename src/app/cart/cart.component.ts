@@ -18,8 +18,8 @@ export class CartComponent implements OnInit {
 		}, console.log);
 	}
 
-	remove(foodItemName) {
+	remove(food) {
 		window.location.reload();
-		this._cartService.deleteItemFromCart(foodItemName).subscribe(console.log, console.log);
+		this._cartService.deleteItemFromCart(food._id).subscribe(console.log, console.log);
 	}
 }
