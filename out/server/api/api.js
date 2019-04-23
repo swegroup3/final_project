@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 
 const FoodItem = require('../models/foodItem');
@@ -14,6 +15,14 @@ const Cart = require('../models/cart');
 const secret_key = "X6jDkr1zqn2Du7uUnjT0CA5wem660RYc32M2F9COPEgYY5px2KYy7OuVWtEcg6E"
 
 const db = require('../config/db');
+
+var transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		user: 'bodegadev@gmail.com',
+		pass: 'G7H5xRaMWnm2tNc'
+	}
+});
 
 mongoose.connect(db.uri, err => {
     if (err) {
@@ -65,6 +74,25 @@ function verifyEVA(req, res, next) {
     next()
 }
 
+//To be called for Admin and Employee-only functions
+function verifyEA(req, res, next) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+	if (payload.type != "admin" && payload.type != "employee"){
+		return res.status(401).send('Unauthorized request')
+	}
+    next()
+}
+
 //To be called for routes restricted to their owner
 function verifyOwnerBody(req, res, next) {
     if (!req.headers.authorization){
@@ -84,6 +112,46 @@ function verifyOwnerBody(req, res, next) {
     next()
 }
 
+//To be called for create routes restricted to their (vendor) owner
+function verifyVendorBody(req, res, next) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+	if (payload.username != req.body.vendor){
+		return res.status(401).send('Unauthorized request')
+	}
+	if (payload.type != "vendor"){
+		return res.status(401).send('Unauthorized request')
+	}
+    next()
+}
+//To verify caller is a vendor
+function verifyVendor(req, res, next) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+	if (payload.type != "vendor"){
+		return res.status(401).send('Unauthorized request')
+	}
+    next()
+}
+
 //Register route (unrestricted)
 router.post('/register', (req, res)=>{
 	let userData = req.body
@@ -97,7 +165,7 @@ router.post('/register', (req, res)=>{
 		if (error) {
 			console.log(error)
 		} else {
-		    let payload = {username: userData.username, type: user.type}
+		    let payload = {username: userData.username, type: user.type, email:user.email}
 		    let token = jwt.sign(payload, secret_key)
 			res.status(200).send({token})
 		}
@@ -119,7 +187,7 @@ router.post('/login', (req, res)=>{
 			if (!user.validPassword(userData.password)){
 				res.status(401).send('Invalid password')
 			} else {
-			    payload = { username: userData.username, type: user.type}
+			    payload = { username: userData.username, type: user.type, email: user.email}
 			    let token = jwt.sign(payload, secret_key)
 				res.status(200).send({token})
 			}
@@ -191,6 +259,16 @@ router.get('/food', (req, res) => {
     });
 });
 
+// View all the food of a particular vendor (for convenience)
+router.get('/vendor/food/:vendor', (req, res) => {
+    FoodItem.find({vendor: req.params.vendor}).exec((err, list) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(list);
+    });
+});
+
 // View a specific food item, unrestricted
 router.get('/food/:name', (req, res) => {
     FoodItem.findOne({name: req.params.name}, (err, item) => {
@@ -201,8 +279,8 @@ router.get('/food/:name', (req, res) => {
     });
 });
 
-//Add a new food item to the menu
-router.post('/food/', verifyEVA, (req, res) => {
+//Add a new food item to the menu, Employee and Admin Only
+router.post('/food/', verifyEA, (req, res) => {
     var foodItem = new FoodItem(req.body);
     foodItem.save(function(err) {
         if (err) {
@@ -214,8 +292,21 @@ router.post('/food/', verifyEVA, (req, res) => {
     });
 });
 
-//Update a food item by name, Employee, Vendor, Admin-only
-router.put('/food/', verifyEVA, (req, res) => {
+//Add a new food item to the menu, owner only
+router.post('/vendor/food/', verifyVendorBody, (req, res) => {
+    var foodItem = new FoodItem(req.body);
+    foodItem.save(function(err) {
+        if (err) {
+            console.log(err);
+            res.status(400).send(err);
+        }
+        else
+            res.json(foodItem);
+    });
+});
+
+//Update a food item by name, Employee, Admin-only
+router.put('/food/', verifyEA, (req, res) => {
     FoodItem.findOneAndUpdate({name: req.body.name},
 	{
 	$set:{vendor:req.body.vendor, price: req.body.price,quantity: req.body.quantity}
@@ -228,8 +319,25 @@ router.put('/food/', verifyEVA, (req, res) => {
 	});
 });
 
-//Delete a food item by name, Employee, Vendor, Admin-only
-router.delete('/food/:name', verifyEVA, (req, res) => {
+
+//Update a food item by name, owner-only
+router.put('/vendor/food/', verifyVendor, (req, res) => {
+	let token = req.headers.authorization
+    let payload = jwt.verify(token, secret_key)
+    FoodItem.findOneAndUpdate({name: req.body.name, payload: token.username},
+	{
+	$set:{price: req.body.price,quantity: req.body.quantity}
+	}, (err, doc) =>{
+		if(err){
+			console.log(err);
+			res.status(400).send(err);
+		}
+		else res.json(doc);
+	});
+});
+
+//Delete a food item by name, Employee, Admin-only
+router.delete('/food/:name', verifyEA, (req, res) => {
     FoodItem.findOneAndDelete({name: req.params.name}, (err, item) => {
         if (err)
             console.log(err);
@@ -237,9 +345,20 @@ router.delete('/food/:name', verifyEVA, (req, res) => {
             res.json(item);
     });
 });
+//Delete a food item by name, owner only
+router.delete('/vendor/food/:name', verifyVendor, (req, res) => {
+	let token = req.headers.authorization
+    let payload = jwt.verify(token, secret_key)
+    FoodItem.findOneAndDelete({name: req.params.name, vendor: payload.username}, (err, item) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(item);
+    });
+});
 
-//Delete all food items, clearing the menu, Employee, Vendor, Admin-only
-router.delete('/food/', verifyEVA, (req, res) => {
+//Delete all food items, clearing the menu, Employee, Admin-only
+router.delete('/food/', verifyEA, (req, res) => {
     FoodItem.deleteMany({}, (err) => {
         if (err)
             console.log(err);
@@ -379,6 +498,8 @@ router.get('/cart/:name', (req, res) => {
 // Purchase the cart, will also delete the cart
 router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
+	let token = req.headers.authorization
+    let payload = jwt.verify(token, secret_key)
     var errorFlag = false;
 
     Cart.findOneAndDelete({username: username}, (err, cart) => {
@@ -466,10 +587,28 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                                     }
                                 });
                             });
-
+							var pinnumber = Math.floor(Math.random() * 10000);
+							if(payload){
+								if(payload.email){
+									var mailOptions = {
+										from: 'bodegadev@gmail.com',
+										to: payload.email,
+										subject: 'Receipt for your Bodega purchase.',
+										text: 'Your purchase pin is: ' + pinnumber
+									};
+									transporter.sendMail(mailOptions, function(error, info){
+										if(error){
+											console.log(error);
+										} else {
+											console.log('Email sent: ' + info.response);
+										}
+									});
+								}
+							}
+							
                             data = {
                                 cart: cart,
-                                pin: Math.floor(Math.random() * 10000)
+                                pin: pinnumber
                             };
                             console.log(data);
                             res.json(data);

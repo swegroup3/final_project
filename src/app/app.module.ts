@@ -21,6 +21,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
 import { AdminDashComponent } from './admin-dash/admin-dash.component';
 import { FooterComponent } from './footer/footer.component';
+import { EmployeefoodComponent } from './employeefood/employeefood.component';
 
 
 
@@ -42,7 +43,8 @@ import { FooterComponent } from './footer/footer.component';
 		CheckoutComponent,
 		OrderconfirmationComponent,
 		AdminDashComponent,
-		FooterComponent
+		FooterComponent,
+		EmployeefoodComponent
 	],
 	imports: [
 		BrowserModule,
