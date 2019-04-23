@@ -14,6 +14,7 @@ export class AdminDashComponent implements OnInit {
 	};
 	updateData = {};
 	users = [];
+	selectedRow = -1;
 
   	constructor(private _user: UserService, private _router: Router) { }
 
@@ -25,13 +26,24 @@ export class AdminDashComponent implements OnInit {
 					);
   	}
 
+  	setClickedRow(index){
+		this.selectedRow = index;
+		console.log(index);
+	}
+
   	updateUserInForm(user) {
 		const returnedTarget = Object.assign(this.updateData, user);
 	}
 
 	update() {
 		window.location.reload();
-		this._user.updateUserAdmin(this.updateData).subscribe(console.log, console.log);
+		this._user.updateUserAdmin(this.updateData).subscribe(
+			res => {
+				console.log(res);
+			},
+			err => {
+				console.log(err);
+			});
 	}
 
   	chooseAccountType(accountType) {

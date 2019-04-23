@@ -4,7 +4,7 @@
 		<div class ='col'>
 		<!-- dropdown! -->
 		<div class="dropdown">
-		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		  <button class="btn btn-blue dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		    Select Account Type
 		  </button>
 		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -56,27 +56,25 @@
 
 		</div>
 		<!-- edit user form! -->
-		<div class='col'>
-			<h3>Edit User</h3>
-			<form>
-				<section align='left'>
-					<label for="updateName">Username</label><br>
-					<input [(ngModel)]="updateData.username" type="text" name="updateName">
-				</section>
-				<br>
-				<section align='left'>
-					<label for="updateEmail">Email</label><br>
-					<input [(ngModel)]="updateData.email" type="text" name="updateEmail">
-				</section>
-				<br>
-				<section align='left'>
-					<label for="updateQuantity">Type</label><br>
-					<input [(ngModel)]="updateData.type" type="text" name="updateType">
-				</section>
-				<br>
-				<input type="button" class="btn btn-blue" value="Update" (click)="update()">
-      		</form>
-		</div>
+		<h3>Edit User</h3>
+		<form>
+			<section align='left'>
+				<label for="updateName">Username</label><br>
+				<input [(ngModel)]="updateData.username" type="text" name="updateName">
+			</section>
+			<br>
+			<section align='left'>
+				<label for="updateEmail">Email</label><br>
+				<input [(ngModel)]="updateData.email" type="text" name="updateEmail">
+			</section>
+			<br>
+			<section align='left'>
+				<label for="updateQuantity">Type</label><br>
+				<input [(ngModel)]="updateData.type" type="text" name="updateType">
+			</section>
+			<br>
+			<input type="button" class="btn btn-blue" value="Update" (click)="update()">
+  		</form>
 
 		<!-- table of users! -->
 		<div class='col-5'>
@@ -88,10 +86,11 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			  	<tr *ngFor="let user of users">
+			  	<tr *ngFor="let user of users; let i = index" [class.active]="i == selectedRow">
 			      <td>{{user.username}}</td>
 			      <td>{{user.email}}</td>
-			      <td><button type="button" class="btn btn-yellow" (click)="updateUserInForm(user)">Edit</button></td>
+			      <td><button type="button" class="btn btn-yellow" (click)="updateUserInForm(user); setClickedRow(i)">Edit</button></td>
+			      <!-- TODO: button to delete users? -->
 			    </tr>
 			  </tbody>
 			</table>

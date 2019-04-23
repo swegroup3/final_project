@@ -4,6 +4,7 @@
 }
 
 #userTable {
+	margin: 20px;
 	overflow-y: auto; 
 	border: 1px solid black;
 	min-width: 200px; 
@@ -14,14 +15,11 @@
 	text-align: center;
 }
 
-#vendorDiv {
+#vendorDiv, #employeeDiv {
 	display: none;
 }
 
-#employeeDiv {
-	display: none;
-}
-
-#userDiv {
-	display: none;
+.table tr.active td {
+  background-color:#123456 !important;
+  color: white;
 }
