@@ -4,7 +4,7 @@ import { InventoryComponent } from './inventory.component';
 
 describe('InventoryComponent', () => {
 	let component: InventoryComponent;
-	let fixture: ComponentFixture<AboutComponent>;
+	let fixture: ComponentFixture<InventoryComponent>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({

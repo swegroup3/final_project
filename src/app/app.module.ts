@@ -19,6 +19,9 @@ import { AccountInfoComponent } from './account-info/account-info.component';
 import { VendorregistrationComponent } from './vendorregistration/vendorregistration.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
+import { AdminDashComponent } from './admin-dash/admin-dash.component';
+import { FooterComponent } from './footer/footer.component';
+import { EmployeefoodComponent } from './employeefood/employeefood.component';
 
 
 
@@ -38,7 +41,10 @@ import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmatio
 		AccountInfoComponent,
 		VendorregistrationComponent,
 		CheckoutComponent,
-		OrderconfirmationComponent
+		OrderconfirmationComponent,
+		AdminDashComponent,
+		FooterComponent,
+		EmployeefoodComponent
 	],
 	imports: [
 		BrowserModule,

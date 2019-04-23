@@ -1,22 +1,25 @@
-<h1>Log-In</h1>
 
-<form method="POST" >
-	<div class="form-group col-md-3">
-		<section>
-			<label for="inputUsername">Username</label>
-			<input type="text" class="form-control" name="username" [(ngModel)]="loginUserData.username" placeholder="Enter username" required>
-		</section>
-	</div>
-	<div class="form-group col-md-3">
-		<section>
-			<label for="inputPassword">Password</label>
-			<input type="password" class="form-control" name="password" [(ngModel)]="loginUserData.password" placeholder="Enter password" required>
-		</section>
-	</div>
-	<div class="form-group col-md-3">
-		<section>
-			<input type=Submit class="btn btn-secondary" value="Log In" (click)="loginUser()">
-		</section>
-	</div>
-	<p id="loginFailed" style="color:red; display:none">Login failed</p>
-</form>
+<div class='col login' align='center'>
+	<h1>Log-In</h1>
+
+	<form method="POST" >
+		<div class="form-group col-md-3">
+			<section align='left'>
+				<label for="inputUsername">Username</label>
+				<input type="text" class="form-control" name="username" [(ngModel)]="loginUserData.username" placeholder="Enter username" required>
+			</section>
+		</div>
+		<div class="form-group col-md-3">
+			<section align='left'>
+				<label for="inputPassword">Password</label>
+				<input type="password" class="form-control" name="password" [(ngModel)]="loginUserData.password" placeholder="Enter password" required>
+			</section>
+		</div>
+		<div class="form-group col-md-3">
+			<section align='left'>
+				<input type=Submit class="btn btn-blue" value="Log In" (click)="loginUser()">
+			</section>
+		</div>
+		<p id="loginFailed" style="color:red; display:none">Login failed</p>
+	</form>
+</div>

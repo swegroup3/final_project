@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 
 const FoodItem = require('../models/foodItem');
@@ -13,6 +15,14 @@ const Cart = require('../models/cart');
 const secret_key = "X6jDkr1zqn2Du7uUnjT0CA5wem660RYc32M2F9COPEgYY5px2KYy7OuVWtEcg6E"
 
 const db = require('../config/db');
+
+var transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		user: 'bodegadev@gmail.com',
+		pass: 'G7H5xRaMWnm2tNc'
+	}
+});
 
 mongoose.connect(db.uri, err => {
     if (err) {
@@ -64,6 +74,25 @@ function verifyEVA(req, res, next) {
     next()
 }
 
+//To be called for Admin and Employee-only functions
+function verifyEA(req, res, next) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+	if (payload.type != "admin" && payload.type != "employee"){
+		return res.status(401).send('Unauthorized request')
+	}
+    next()
+}
+
 //To be called for routes restricted to their owner
 function verifyOwnerBody(req, res, next) {
     if (!req.headers.authorization){
@@ -83,6 +112,46 @@ function verifyOwnerBody(req, res, next) {
     next()
 }
 
+//To be called for create routes restricted to their (vendor) owner
+function verifyVendorBody(req, res, next) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+	if (payload.username != req.body.vendor){
+		return res.status(401).send('Unauthorized request')
+	}
+	if (payload.type != "vendor"){
+		return res.status(401).send('Unauthorized request')
+	}
+    next()
+}
+//To verify caller is a vendor
+function verifyVendor(req, res, next) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    let token = req.headers.authorization
+    if (token === 'null'){
+        return res.status(401).send('Unauthorized request')
+    }
+    let payload = jwt.verify(token, secret_key)
+    if (!payload) {
+        return res.status(401).send('Unauthorized request')
+    }
+	if (payload.type != "vendor"){
+		return res.status(401).send('Unauthorized request')
+	}
+    next()
+}
+
 //Register route (unrestricted)
 router.post('/register', (req, res)=>{
 	let userData = req.body
@@ -96,7 +165,7 @@ router.post('/register', (req, res)=>{
 		if (error) {
 			console.log(error)
 		} else {
-		    let payload = {username: userData.username, type: user.type}
+		    let payload = {username: userData.username, type: user.type, email:user.email}
 		    let token = jwt.sign(payload, secret_key)
 			res.status(200).send({token})
 		}
@@ -118,7 +187,7 @@ router.post('/login', (req, res)=>{
 			if (!user.validPassword(userData.password)){
 				res.status(401).send('Invalid password')
 			} else {
-			    payload = { username: userData.username, type: user.type}
+			    payload = { username: userData.username, type: user.type, email: user.email}
 			    let token = jwt.sign(payload, secret_key)
 				res.status(200).send({token})
 			}
@@ -190,9 +259,19 @@ router.get('/food', (req, res) => {
     });
 });
 
-// View a specific food item, unrestricted
-router.get('/food/:name', (req, res) => {
-    FoodItem.findOne({name: req.params.name}, (err, item) => {
+// View all the food of a particular vendor (for convenience)
+router.get('/vendor/food/:vendor', (req, res) => {
+    FoodItem.find({vendor: req.params.vendor}).exec((err, list) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(list);
+    });
+});
+
+// View a specific food item by id, unrestricted
+router.get('/food/:_id', (req, res) => {
+    FoodItem.findOne({_id: req.params._id}, (err, item) => {
         if (err)
             console.log(err);
         else
@@ -200,8 +279,8 @@ router.get('/food/:name', (req, res) => {
     });
 });
 
-//Add a new food item to the menu
-router.post('/food/', verifyEVA, (req, res) => {
+//Add a new food item to the menu, Employee and Admin Only
+router.post('/food/', verifyEA, (req, res) => {
     var foodItem = new FoodItem(req.body);
     foodItem.save(function(err) {
         if (err) {
@@ -213,11 +292,29 @@ router.post('/food/', verifyEVA, (req, res) => {
     });
 });
 
-//Update a food item by name, Employee, Vendor, Admin-only
-router.put('/food/', verifyEVA, (req, res) => {
-    FoodItem.findOneAndUpdate({name: req.body.name},
+//Add a new food item to the menu, owner only
+router.post('/vendor/food/', verifyVendorBody, (req, res) => {
+    var foodItem = new FoodItem(req.body);
+    foodItem.save(function(err) {
+        if (err) {
+            console.log(err);
+            res.status(400).send(err);
+        }
+        else
+            res.json(foodItem);
+    });
+});
+
+//Update a food item by id, Employee, Admin-only
+router.put('/food/', verifyEA, (req, res) => {
+    FoodItem.findOneAndUpdate({_id: req.body._id},
 	{
-	$set:{vendor:req.body.vendor, price: req.body.price,quantity: req.body.quantity}
+        $set: {
+            name: req.body.name,
+            vendor: req.body.vendor,
+            price: req.body.price,
+            quantity: req.body.quantity
+        }
 	}, (err, doc) =>{
 		if(err){
 			console.log(err);
@@ -227,9 +324,41 @@ router.put('/food/', verifyEVA, (req, res) => {
 	});
 });
 
-//Delete a food item by name, Employee, Vendor, Admin-only
-router.delete('/food/:name', verifyEVA, (req, res) => {
-    FoodItem.findOneAndDelete({name: req.params.name}, (err, item) => {
+
+//Update a food item by id, owner-only
+router.put('/vendor/food/', verifyVendor, (req, res) => {
+	let token = req.headers.authorization
+    let payload = jwt.verify(token, secret_key)
+    FoodItem.findOneAndUpdate({_id: req.body._id, payload: token.username},
+	{
+        $set:{
+            name: req.body.name,
+            price: req.body.price,
+            quantity: req.body.quantity
+        }
+	}, (err, doc) =>{
+		if(err){
+			console.log(err);
+			res.status(400).send(err);
+		}
+		else res.json(doc);
+	});
+});
+
+//Delete a food item by id, Employee, Admin-only
+router.delete('/food/:_id', verifyEA, (req, res) => {
+    FoodItem.findOneAndDelete({_id: req.params._id}, (err, item) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(item);
+    });
+});
+//Delete a food item by id, owner only
+router.delete('/vendor/food/:_id', verifyVendor, (req, res) => {
+	let token = req.headers.authorization
+    let payload = jwt.verify(token, secret_key)
+    FoodItem.findOneAndDelete({_id: req.params._id, vendor: payload.username}, (err, item) => {
         if (err)
             console.log(err);
         else
@@ -237,8 +366,8 @@ router.delete('/food/:name', verifyEVA, (req, res) => {
     });
 });
 
-//Delete all food items, clearing the menu, Employee, Vendor, Admin-only
-router.delete('/food/', verifyEVA, (req, res) => {
+//Delete all food items, clearing the menu, Employee, Admin-only
+router.delete('/food/', verifyEA, (req, res) => {
     FoodItem.deleteMany({}, (err) => {
         if (err)
             console.log(err);
@@ -271,7 +400,7 @@ router.put('/admin/user/', verifyAdmin, (req, res) => {
 });
 
 //Delete a user by name, Admin-only
-router.delete('/user/:user', verifyEVA, (req, res) => {
+router.delete('/user/:username', verifyEVA, (req, res) => {
     User.findOneAndDelete({username: req.params.username}, (err, item) => {
         if (err)
             console.log(err);
@@ -283,8 +412,8 @@ router.delete('/user/:user', verifyEVA, (req, res) => {
 // Add item to cart, create cart if one does not exist for the user
 router.post('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
-    var foodItemName = req.body.foodItemName;
-    
+    var foodItemId = req.body._id;
+
     Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
             console.log(err);
@@ -296,13 +425,13 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
                 });
             }
 
-            FoodItem.findOne({name: foodItemName}, (err, item) => {
+            FoodItem.findOne({_id: foodItemId}, (err, item) => {
                 if (err)
                     console.log(err);
                 else {
                     var foundIndex = undefined;
                     foundCart.items.forEach((item, index) => {
-                        if (item.name == foodItemName)
+                        if (item._id == foodItemId)
                             foundIndex = index;
                     });
 
@@ -312,7 +441,7 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
                         item.quantity = 1;
                         foundCart.items.push(item);
                     }
-                    
+
                     foundCart.save();
                     res.json(foundCart);
                 }
@@ -325,7 +454,8 @@ router.post('/cart/', verifyOwnerBody, (req, res) => {
 // Delete item from cart
 router.put('/cart/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
-    var foodItemName = req.body.foodItemName;
+    var foodItemId = req.body._id;
+    console.log('request to remove item from cart:', username, foodItemId);
 
     Cart.findOne({username: username}, (err, foundCart) => {
         if (err)
@@ -333,13 +463,13 @@ router.put('/cart/', verifyOwnerBody, (req, res) => {
         else {
             var foundIndex = undefined;
             foundCart.items.forEach((item, index) => {
-                if (item.name == foodItemName)
+                if (item._id == foodItemId)
                     foundIndex = index;
             });
 
             if (foundIndex != undefined) {
                 foundCart.items[foundIndex].quantity--;
-                console.log(foundCart.items[foundIndex])
+                // console.log(foundCart.items[foundIndex])
                 if (foundCart.items[foundIndex].quantity == 0)
                     foundCart.items.splice(foundIndex, 1);
             }
@@ -377,6 +507,8 @@ router.get('/cart/:name', (req, res) => {
 // Purchase the cart, will also delete the cart
 router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
     var username = req.body.username;
+	let token = req.headers.authorization
+    let payload = jwt.verify(token, secret_key)
     var errorFlag = false;
 
     Cart.findOneAndDelete({username: username}, (err, cart) => {
@@ -385,22 +517,23 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
         }
         else {
             if (cart) {
-                // Check if the order is valid
-                itemNames = [];
+                itemIds = [];
                 newCart = [];
                 cart.items.forEach(item => {
-                    itemNames.push(item.name);
+                    itemIds.push(item._id);
                     newCart.push({
-                        name: item.name,
+                        _id: item._id,
                         quantity: item.quantity
                     });
                 });
 
-                FoodItem.find({'name': {$in: itemNames}}, (err, foundItems) => {
+                FoodItem.find({'_id': {$in: itemIds}}, (err, foundItems) => {
                     if (err) {
                         console.log(err);
                     }
-                    else if (itemNames.length != foundItems.length) {
+                    // If the list of requested ids has the same length as the found items,
+                    // then we can be sure each id was found (ids have to be unique)
+                    else if (itemIds.length != foundItems.length) {
                         var message = "Could not find all items in shopping cart."
                         console.log(message);
                         res.status(409).send(message);
@@ -409,12 +542,14 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                         var toUpdate = [];
                         var toDelete = [];
 
-                        var compare = function(x, y) {
-                            return x.name.localeCompare(y.name);
+                        var orderById = function(x, y) {
+                            return toString(x._id).localeCompare(toString(y._id));
                         }
 
-                        newCart.sort(compare);
-                        foundItems.sort(compare);
+                        // Sorting the ids ensures that the indices in both newCart and foundItems
+                        // refers to the same item
+                        newCart.sort(orderById);
+                        foundItems.sort(orderById);
 
                         foundItems.forEach((foundItem, index) => {
                             var item = newCart[index];
@@ -428,21 +563,21 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                             }
                             else if (newQuantity == 0) {
                                 toDelete.push({
-                                    name: item.name
+                                    _id: item._id
                                 });
                             }
                             else {
                                 toUpdate.push({
-                                    name: item.name,
+                                    _id: item._id,
                                     newQuantity: newQuantity
                                 });
                             }
                         });
-                        
+
                         if (!errorFlag) {
                             // Update the items with a non-zero quantity
                             toUpdate.forEach(item => {
-                                FoodItem.findOneAndUpdate({name: item.name}, {
+                                FoodItem.findOneAndUpdate({_id: item._id}, {
                                     $set: {quantity: item.newQuantity}
                                 }, (err, foodItem) => {
                                     if (err)
@@ -455,7 +590,7 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                             });
                             // Delete the items with a zero quantity
                             toDelete.forEach(item => {
-                                FoodItem.findOneAndDelete({name: item.name}, (err, foodItem) => {
+                                FoodItem.findOneAndDelete({_id: item._id}, (err, foodItem) => {
                                     if (err)
                                         console.log(err);
                                     else {
@@ -464,10 +599,45 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
                                     }
                                 });
                             });
+                            var pinnumber = Math.floor(Math.random() * 10000);
+                            pinnumber = pinnumber.toString();
+                            // Pad the pin with 0s up to a length of 4
+                            pinnumber = new Array(1 + 4 - pinnumber.length).join('0') + pinnumber;
+							if(payload){
+								if(payload.email){
+                                    var cartInfo = '';
+                                    var subtotal = 0;
+                                    cart.items.forEach((item) => {
+                                        cartInfo += item.quantity.toString() + 'x ' +
+                                                    item.name + ': ' +
+                                                    '$' + item.price.toFixed(2) + '\n';
+                                        subtotal += item.quantity * item.price;
+                                    });
+                                    cartInfo += 'SUBTOTAL: $' + subtotal.toFixed(2) + '\n\n';
+                                    var emailBody = 'Order received!\n\n' +
+                                                    cartInfo +
+                                                    'PIN: ' + pinnumber + '\n\n' +
+                                                    'Thank you for using the Bodega\'s community lunchbox. Please pick up your food at your leisure.';
 
+									var mailOptions = {
+										from: 'bodegadev@gmail.com',
+										to: payload.email,
+										subject: 'Receipt for your Bodega purchase.',
+										text: emailBody
+									};
+									transporter.sendMail(mailOptions, function(error, info){
+										if(error){
+											console.log(error);
+										} else {
+											console.log('Email sent: ' + info.response);
+										}
+									});
+								}
+							}
+							
                             data = {
                                 cart: cart,
-                                pin: Math.floor(Math.random() * 10000)
+                                pin: pinnumber
                             };
                             console.log(data);
                             res.json(data);
@@ -482,6 +652,18 @@ router.post('/cart/purchase/', verifyOwnerBody, (req, res) => {
             }
         }
     });
+});
+
+// Generate a guest token
+router.get('/guest/', (req, res) => {
+    var randomName = 'guest_' + crypto.randomBytes(10).toString('hex');
+    var payload = {
+        username: randomName,
+        type: 'guest'
+    };
+    let token = jwt.sign(payload, secret_key)
+    // Making an assumption here that this user will not exist in the database
+    res.status(200).send({token})
 });
 
 module.exports = router;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../database.service';
+import { UserService } from '../user.service';
 
 @Component({
 	selector: 'app-internal-testing',
@@ -7,14 +8,18 @@ import { DatabaseService } from '../database.service';
 	styleUrls: ['./internal-testing.component.css']
 })
 export class InternalTestingComponent implements OnInit {
-	data = {};
+	data = {
+		vendor: ""
+	};
 	updateData = {};
 	foods = [];
+	selectedRow = -1;
 
-	constructor(private _databaseService: DatabaseService) { }
+	constructor(private _databaseService: DatabaseService, private _user: UserService) { }
 
 	ngOnInit() {
-		this._databaseService.getAllFood()
+		this.data.vendor = this._user.getName();
+		this._databaseService.getVendorFood(this._user.getName())
 				.subscribe(
 					res => this.foods = res,
 					err => console.log(err)
@@ -22,10 +27,8 @@ export class InternalTestingComponent implements OnInit {
 	}
 
 	post() {
-		this._databaseService.createFood(this.data).subscribe(console.log, console.log);
-		// Having the page reload immediately caused the post to not happen - reload happens too fast!
-		// And ditto with the following reloads.
-		//window.location.reload();
+		window.location.reload();
+		this._databaseService.createFoodVendor(this.data).subscribe(console.log, console.log);
 	}
 
 	updateItemInForm(food) {
@@ -33,13 +36,17 @@ export class InternalTestingComponent implements OnInit {
 	}
 
 	delete(food) {
-		this._databaseService.deleteFood(food.name).subscribe(console.log, console.log);
-		//window.location.reload();
+		window.location.reload();
+		this._databaseService.deleteFoodVendor(food._id).subscribe(console.log, console.log);
 	}
 
 	update() {
-		this._databaseService.updateFood(this.updateData).subscribe(console.log, console.log);
-		//window.location.reload();
+		window.location.reload();
+		this._databaseService.updateFoodVendor(this.updateData).subscribe(console.log, console.log);
 	}
 
+	setClickedRow(index){
+		this.selectedRow = index;
+		console.log(index);
+	}
 }

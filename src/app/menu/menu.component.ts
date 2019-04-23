@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../user.service';
 
 @Component({
@@ -7,10 +7,16 @@ import { UserService } from '../user.service';
 	styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
+	@ViewChild('navbarToggler') navbarToggler: ElementRef;
 
 	constructor(private _userService: UserService) { }
 
 	ngOnInit() {
 	}
 
+	collapse() {
+		if (this.navbarToggler.nativeElement.offsetParent !== null) {
+			this.navbarToggler.nativeElement.click();
+		}
+	}
 }

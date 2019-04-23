@@ -23,11 +23,7 @@ export class InventoryComponent implements OnInit {
 					);
 	}
 
-	post() {
-		this._databaseService.createFood(this.data).subscribe(console.log, console.log);
-	}
-
-	add(item) {
-		this._cartService.addItemToCart(item).subscribe(console.log, console.log);
+	add(foodItem) {
+		this._cartService.addItemToCart(foodItem._id).subscribe(console.log, console.log);
 	}
 }

@@ -1,0 +1,25 @@
+.vendor {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+#userTable {
+	margin: 20px;
+	overflow-y: auto; 
+	border: 1px solid black;
+	min-width: 200px; 
+	height: 550px;
+}
+
+#titleHeader {
+	text-align: center;
+}
+
+#vendorDiv, #employeeDiv {
+	display: none;
+}
+
+.table tr.active td {
+  background-color:#123456 !important;
+  color: white;
+}

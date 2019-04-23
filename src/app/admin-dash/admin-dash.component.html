@@ -1,0 +1,81 @@
+<h2 id='titleHeader'>Administrator Dashboard</h2>
+<div class="container">
+	<div class='row'>
+		<div class ='col'>
+		<!-- dropdown! -->
+		<div class="dropdown">
+		  <button class="btn btn-blue dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Select Account Type
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		    <button class="btn btn-link" (click)="chooseAccountType('vendor')" type="button">Vendor</button>
+		    <button class="btn btn-link" (click)="chooseAccountType('employee')" type="button">Employee</button>
+		  </div>
+		</div>
+		<!-- div forms! -->
+		<div id='vendorDiv'>
+			<h3>Add Vendor</h3>
+			<form>
+				<!-- TODO: store first or last name as vendor org name?? -->
+				<label for="vendorName">Vendor Username</label><br>
+				<input [(ngModel)]="data.username" type="text" name="vendorName">
+				<br>
+				<label for="vendorPass">Vendor Password</label><br>
+				<input [(ngModel)]="data.password" type="password" name="vendorPass">
+				<br>
+				<label for="vendorEmail">Email</label><br>
+				<input [(ngModel)]="data.email" type="text" name="vendorEmail">
+				<br>
+				<br>
+				<input type="button" class="btn btn-blue" value="Add vendor" (click)="registerVendor()">
+			</form>
+		</div>
+
+		<div id='employeeDiv'>
+			<h3>Add Employee</h3>
+			<form>
+				<label for="empfirstName">First Name</label><br>
+				<input [(ngModel)]="data.firstname" type="text" name="empfirstName">
+				<br>
+				<label for="emplastName">Last Name</label><br>
+				<input [(ngModel)]="data.lastname" type="text" name="emplastName">
+				<br>
+				<label for="employeeName">Employee Username</label><br>
+				<input [(ngModel)]="data.username" type="text" name="employeeName">
+				<br>
+				<label for="employeePass">Password</label><br>
+				<input [(ngModel)]="data.password" type="password" name="employeePass">
+				<br>
+				<label for="employeeEmail">Email</label><br>
+				<input [(ngModel)]="data.email" type="text" name="employeeEmail">
+				<br>
+				<br>
+				<input type="button" class="btn btn-blue" value="Add employee" (click)="registerEmployee()">
+			</form>
+		</div>
+
+		</div>
+
+		<!-- table of users! -->
+		<div class='col'>
+			<table class="table table-striped padding-md" id='userTable'>
+			  <thead>
+			    <tr>
+			      <th>Username</th>
+			      <th>Email</th>
+			      <th>Type</th>
+			      <th>Remove</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	<tr *ngFor="let user of users">
+			      <td>{{user.username}}</td>
+			      <td>{{user.email}}</td>
+			      <td>{{user.type}}
+			      <td><button type="button" class="btn btn-danger" (click)="delete(user.username)">x</button></td>
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+	</div>
+</div>

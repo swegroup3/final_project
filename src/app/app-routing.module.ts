@@ -13,7 +13,13 @@ import { AccountInfoComponent } from './account-info/account-info.component';
 import { VendorregistrationComponent } from './vendorregistration/vendorregistration.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
-
+import { AdminDashComponent } from './admin-dash/admin-dash.component';
+import { EmployeefoodComponent } from './employeefood/employeefood.component';
+import {AdminGuard} from './admin.guard';
+import {EvaGuard} from './eva.guard';
+import {VendorGuard} from './vendor.guard';
+import {UserGuard} from './user.guard';
+import {EAGuard} from './ea.guard';
 
 const routes: Routes = [
 	{
@@ -50,8 +56,9 @@ const routes: Routes = [
 		component: SignupComponent
 	},
 	{
-		path: 'debug',
-		component: InternalTestingComponent
+		path: 'vendor',
+		component: InternalTestingComponent,
+		canActivate: [EvaGuard]
 	},
 	{
 		path: 'history',
@@ -59,7 +66,8 @@ const routes: Routes = [
 	},
 	{
 		path: 'account',
-		component: AccountInfoComponent
+		component: AccountInfoComponent,
+		canActivate: [UserGuard]
 	},
 	{
 		path: 'vendorreg',
@@ -72,7 +80,18 @@ const routes: Routes = [
 	{
 		path: 'confirmation',
 		component: OrderconfirmationComponent
+	},
+	{
+		path: 'employeefood',
+		component: EmployeefoodComponent,
+		canActivate: [EAGuard]
+	},
+	{
+		path: 'admin',
+		component: AdminDashComponent,
+		canActivate: [AdminGuard]
 	}
+	
 ];
 
 @NgModule({

@@ -1,80 +1,64 @@
 <div class="container">
 	<div class="row">
-		<div class="col">
+		<div class="col" class="mx-auto">
 
       <br>
       <h3>Account Information</h3>
+			<br>
 
-      <!-- Account Info Form
-
-      NOTE: The placeholder attributes are placeholders. We could get the user's account information
-      from the database and use those attributes for the form placeholders.
-    -->
-
-      <form method="POST" > <!-- NOT SURE ABOUT ACTION -->
-      	<div class="form-group col-md-3" >
-      			<label for="inputFirstName">First Name</label>
-      			<input type="text" class="form-control" name="firstName" [(ngModel)]="updateUserData.firstname" style="width: 300px;" required>
-      	</div>
-      	<div class="form-group col-md-3">
-      			<label for="inputLastName">Last Name</label>
-      			<input type="text" class="form-control" name="lastName" [(ngModel)]="updateUserData.lastname" style="width: 300px;" required>
-      	</div>
-        <div class="form-group col-md-3">
-      			<label for="inputEmail">Email</label>
-      			<input type="text" class="form-control" name="email" [(ngModel)]="updateUserData.email" style="width: 300px;" required>
-      	</div>
-        <div class="form-group col-md-3">
-      			<label for="inputUsername">Username</label>
-      			<input type="text" class="form-control" name="username" [(ngModel)]="updateUserData.username" style="width: 300px;" required>
-      	</div>
-      <!--  <div class="form-group col-md-3">
-      			<label for="inputPassword">Password</label>
-      			<input type="password" class="form-control" name="password" [(ngModel)]="updateUserData.password" style="width: 300px;" required>
-      	</div>
-        <div class="form-group col-md-3">
-      			<label for="inputReenterPassword" style="width: 300px;">Re-enter Password</label>
-      			<input type="text" class="form-control" name="reenterPassword" ng-model="" placeholder="" style="width: 300px;" required>
-      	</div>
-        <div class="form-group col-md-3">
-      			<label for="companyName" style="width: 300px;">Company/Organization Name</label>
-      			<input type="text" class="form-control" name="companyName" ng-model="" placeholder="" style="width: 300px;" required>
-      	</div>
-        -->
-
-				<script>
-
-				</script>
-
-
-        <div class="form-group col-md-3">
-      			<input type=Submit class="btn btn-secondary" value="Update and Save" (click)="updateUser(); showConfirm()">
-      	</div>
-
-      </form>
+		      <form method="POST" > <!-- NOT SURE ABOUT ACTION -->
+							<div>
+								<section align="left">
+			      			<label for="inputFirstName">First Name</label>
+			      			<input type="text" class="form-control" name="firstName" [(ngModel)]="updateUserData.firstname" style="width: 300px;" required>
+								</section>
+							</div>
+							<br>
+							<div>
+								<section align="left">
+									<label for="inputLastName">Last Name</label>
+			      			<input type="text" class="form-control" name="lastName" [(ngModel)]="updateUserData.lastname" style="width: 300px;" required>
+								</section>
+							</div>
+						  <br>
+							<div>
+								<section align="left">
+									<label for="inputEmail">Email</label>
+									<input type="text" class="form-control" name="email" [(ngModel)]="updateUserData.email" style="width: 300px;" required>
+							 </section>
+							</div>
+		      		<br>
+							<div>
+								<section align="left">
+									<label for="inputUsername">Username</label>
+									<input type="text" class="form-control" name="username" [(ngModel)]="updateUserData.username" style="width: 300px;" required>
+							 </section>
+							</div>
+						  <br>
+			        <div>
+			      			<input type=Submit class="btn btn-yellow" value="Update and Save" (click)="updateUser(); showConfirm()">
+			      	</div>
+		      </form>
 
 			<div id="confirmation" style = "display:none; color:red;" > <strong>Changes Updated!</strong> </div>
 
-
-
-
-
     </div>
-		<div class="col">
+		<div class="col" align="center">
       <br>
 				<h3>Payment Information</h3>
-        <p>
-            Could have maybe the PayPal API here so people can change accounts/whatever
+				<br>
+				<p>
+            	Placeholder for Payment Tool
         </p>
+				<br>
+				<br>
+				<br>
+				<br>
 
         <div class ="row">
           <div class ="col">
-            <input type=Submit class="btn btn-secondary" value="Return to Home" [routerLink]="['/home']">
+            <input type=Submit class="btn btn-blue" value="Return to Home" [routerLink]="['/home']">
           </div>
-          <div class ="col">
-            <input type=Submit class="btn btn-secondary" value="Sign Out" (click)="_user.logout()">
-          </div>
-
         </div>
 
 
