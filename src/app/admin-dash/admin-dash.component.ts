@@ -12,11 +12,36 @@ export class AdminDashComponent implements OnInit {
 	data = {
 		'type': 'vendor'
 	}
+	users = [];
 
   	constructor(private _user: UserService, private _router: Router) { }
 
   	ngOnInit() {
+  		this._user.getAllUsers()
+				.subscribe(
+					res => this.users = res,
+					err => console.log(err)
+					);
   	}
+
+  	chooseAccountType(accountType) {
+  		if (accountType == 'vendor') {
+  			document.getElementById('employeeDiv').style.display = "none";
+  			document.getElementById('userDiv').style.display = "none";
+  			document.getElementById('vendorDiv').style.display = "block";
+  		}
+  		else if (accountType == 'employee') {
+  			document.getElementById('UserDiv').style.display = "none";
+  			document.getElementById('vendorDiv').style.display = "none";
+  			document.getElementById('employeeDiv').style.display = "block";
+  		}
+  		else if (accountType == 'user') {
+  			document.getElementById('employeeDiv').style.display = "none";
+  			document.getElementById('vendorDiv').style.display = "none";
+  			document.getElementById('userDiv').style.display = "block";
+  		}
+  	}
+
   	registerVendor() {
 		this._user.register(this.data)
 		.subscribe(

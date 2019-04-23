@@ -2,3 +2,18 @@
   padding-top: 50px;
   padding-bottom: 50px;
 }
+
+#userTable {
+	overflow-y: auto; 
+	border: 1px solid black;
+	min-width: 200px; 
+	height: 550px;
+}
+
+#titleHeader {
+	text-align: center;
+}
+
+#vendorDiv {
+	display: none;
+}
