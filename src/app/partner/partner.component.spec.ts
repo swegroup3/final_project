@@ -4,7 +4,7 @@ import { PartnerComponent } from './partner.component';
 
 describe('PartnerComponent', () => {
 	let component: PartnerComponent;
-	let fixture: ComponentFixture<TylerComponent>;
+	let fixture: ComponentFixture<PartnerComponent>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
