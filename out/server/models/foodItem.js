@@ -23,5 +23,5 @@ foodItemSchema.pre('save', function(next) {
 });
 
 // Export the model
-FoodItem = mongoose.model('FoodItem', foodItemSchema);
+FoodItem = mongoose.model('FoodItem', foodItemSchema, 'Inventory');
 module.exports = FoodItem;

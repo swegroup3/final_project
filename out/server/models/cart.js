@@ -16,5 +16,5 @@ cartSchema.pre('save', function(next) {
 	next();
 });
 
-CartSchema = mongoose.model('CartSchema', cartSchema);
+CartSchema = mongoose.model('CartSchema', cartSchema, 'Carts');
 module.exports = CartSchema;
